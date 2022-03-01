@@ -3,7 +3,7 @@ import { routes } from './routes';
 import { initializeDbConnection } from './db';
 import path from "path";
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 
