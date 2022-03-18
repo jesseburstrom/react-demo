@@ -23,13 +23,21 @@ export const signUpRoute = {
             bio: '',
         };
 
-        const result = await db.collection('users').insertOne({
-            email,
-            passwordHash,
-            info: startingInfo,
-            isVerified: false,
+        
+        const result = await db.collection("users").insertOne({
+          email,
+          passwordHash,
+          info: startingInfo,
+          isVerified: false,
         });
+
         const { insertedId } = result;
+
+        await db.collection("logs").insertOne({
+          insertedId: insertedId,
+          log: [],
+        });
+
 
         jwt.sign({
             id: insertedId,
