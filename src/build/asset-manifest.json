@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.f32ded01.css",
-    "main.js": "/static/js/main.a7e6eb5e.js",
+    "main.css": "/static/css/main.52d425af.css",
+    "main.js": "/static/js/main.badca280.js",
     "static/media/jesse3.jpg": "/static/media/jesse3.1e5d4fb6a73087cb8536.jpg",
     "static/media/services-bg.jpg": "/static/media/services-bg.f1ca14a06879defdb540.jpg",
-    "static/media/CV - Jesse Burström - Swedish.pdf": "/static/media/CV - Jesse Burström - Swedish.d7521641c5e1ac03d234.pdf",
-    "static/media/CV - Jesse Burström - English.pdf": "/static/media/CV - Jesse Burström - English.9139386b5ad5accfb04e.pdf",
+    "static/media/CV-JesseBurström-Eng.pdf": "/static/media/CV-JesseBurström-Eng.e337812b4843eebbb6e8.pdf",
+    "static/media/CV-JesseBurström-Swe.pdf": "/static/media/CV-JesseBurström-Swe.9c6e9745a4f708c7241b.pdf",
     "static/media/jesse1.jpg": "/static/media/jesse1.f8ce96f23f7513a5ba80.jpg",
     "index.html": "/index.html",
-    "main.f32ded01.css.map": "/static/css/main.f32ded01.css.map",
-    "main.a7e6eb5e.js.map": "/static/js/main.a7e6eb5e.js.map"
+    "main.52d425af.css.map": "/static/css/main.52d425af.css.map",
+    "main.badca280.js.map": "/static/js/main.badca280.js.map"
   },
   "entrypoints": [
-    "static/css/main.f32ded01.css",
-    "static/js/main.a7e6eb5e.js"
+    "static/css/main.52d425af.css",
+    "static/js/main.badca280.js"
   ]
 }
