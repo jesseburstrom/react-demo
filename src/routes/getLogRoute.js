@@ -1,15 +1,14 @@
 import jwt from "jsonwebtoken";
 import { getDbConnection } from "../db";
 
-export const logRoute = {
-  path: "/api/log/:userId",
-  method: "post",
+export const getLogRoute = {
+  path: "/api/getLog/:userId",
+  method: "get",
   handler: async (req, res) => {
     const { authorization } = req.headers;
     const { userId } = req.params;
-    const  activity  = req.body;
 
-    console.log("in logRoute", activity, userId);
+    console.log("in getLogRoute", userId);
     if (!authorization) {
       console.log("No auth");
       return res.status(401).json({ message: "No authorization header sent" });
@@ -35,10 +34,8 @@ export const logRoute = {
 
       const result = await db
         .collection("logs")
-        .findOneAndUpdate(
+        .find(
           { insertedId: userId },
-          { $push: { log: activity } },
-          { upsert:true, returnOriginal: false }
         );
       console.log("result ", result);
       res.status(200).json(result.value);

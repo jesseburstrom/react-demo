@@ -3,12 +3,15 @@ import { routes } from './routes';
 import { initializeDbConnection, getDbConnection } from './db';
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
+const db = require("./pdb");
 
 const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "/build")));
+//app.use(express.static(path.join(__dirname, "/build")));
+//app.use(express.static(path.join(__dirname, "/web")));
+app.use(express.static(path.join("C:/Users/J/StudioProjects/flutter_frontend/build/web")));
 app.use(express.json());
 
 // Add all the routes to our Express server
@@ -16,7 +19,286 @@ app.use(express.json());
 routes.forEach((route) => {
   app[route.method](route.path, route.handler);
 });
+////////////////////////////////// YATZY //////////////////////////////////
+const server = require("http").createServer(express);
+const io = require("socket.io")(server);
 
+var games = [];
+var gameId = 0;
+
+io.on("connection", (socket) => {
+  console.log("client connect...", socket.id);
+
+  socket.on("sendToClients", (data) => {
+    console.log(data);
+    for (var i = 0; i < data["playerIds"].length; i++) {
+      if (data["playerIds"][i] != socket.id) {
+        console.log(data["playerIds"][i]);
+        io.to(data["playerIds"][i]).emit("onClientMsg", data);
+      }
+    }
+  });
+
+  socket.on("sendToServer", (data) => {
+    console.log(data);
+    switch (data["action"]) {
+
+      case "getId": {
+        data["id"] = socket.id;
+        data["action"] = "onGetId";
+        io.to(socket.id).emit("onServerMsg", data);
+        if (games.length > 0) {
+          console.log("sending init games data");
+          io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+        }
+        break;
+      }
+
+      case "removeGame": {
+        games = games.filter(game => game["gameId"] !== data["gameId"]);
+        console.log("removed game");
+        io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+        break;
+      }
+
+      case "requestJoinGame": {
+        console.log("Try Join Game: ");
+        console.log(data);
+        //Find game from gameId and see if still availible and user not already connected
+        for (var i = 0; i < games.length; i++) {
+          if (data["gameId"] === games[i]["gameId"]) {
+            if(games[i]["connected"] < games[i]["nrPlayers"] &&
+              games[i]["playerIds"].indexOf(socket.id) === -1) {
+                // Connect player to game
+                games[i]["playerIds"][games[i]["connected"]] = socket.id;
+                games[i]["userNames"][games[i]["connected"]] = data["userName"];
+                games[i]["connected"]++;
+                var game = games[i];
+                
+                removePlayer(i);
+                //  issue new game possibly
+                if (game["nrPlayers"] === game["connected"]) {
+                  // Send start game to players
+                  game["action"] = "onGameStart";
+                  game["gameStarted"] = true;
+                  for (var i = 0; i < game["playerIds"].length; i++) {
+                    io.to(game["playerIds"][i]).emit("onServerMsg", game);
+                  }
+                }
+                io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+              }
+            break;
+          }
+        }
+        break;
+      }
+
+      case "requestGame": {
+        if (data["nrPlayers"] === 1) {
+          // Sologame send start and save game
+          data["action"] = "onGameStart";
+          data["gameId"] = gameId++;
+          data["playerIds"][0] = socket.id;
+          data["userNames"][0] = data["userName"];
+          data["connected"] = 1;
+          data["gameStarted"] = true;
+          removePlayer();
+          games.push(data);
+          io.to(socket.id).emit("onServerMsg", data);
+          io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+          return; 
+        }
+        var foundGame = -1;
+        for (var i = 0; i < games.length; i++) {
+          if (
+            data["gameType"] === games[i]["gameType"] &&
+            data["nrPlayers"] === games[i]["nrPlayers"] &&
+            games[i]["connected"] < games[i]["nrPlayers"]
+          ) {
+            foundGame = i;
+            break;
+          }
+        }
+        if (foundGame === -1) {
+          data["playerIds"][0] = socket.id;
+          data["connected"] = 1;
+          data["gameId"] = gameId++;
+          data["userNames"][0] = data["userName"];
+          removePlayer();
+          games.push(data);
+        } else {
+          // If id already present do nothing
+          if (games[i]["playerIds"].indexOf(data["playerIds"]) !== -1) {
+            return;
+          }
+          games[i]["playerIds"][games[i]["connected"]] = socket.id;
+          games[i]["userNames"][games[i]["connected"]] = data["userName"];
+          games[i]["connected"]++;
+          removePlayer(i);
+          if (games[i]["nrPlayers"] === games[i]["connected"]) {
+            var game = games[i];
+            // Send start game to players
+            game["action"] = "onGameStart";
+            game["gameStarted"] = true;
+            for (var i = 0; i < game["playerIds"].length; i++) {
+              io.to(game["playerIds"][i]).emit("onServerMsg", game);
+            }
+          }
+        }
+        io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+        break;
+      }
+    }
+  });
+
+  function removePlayer(exclude = -1) {
+
+    // remove player from ongoing games loop backwards not to break indexing
+    // if only one player or game started issue game abort
+    var j = games.length;
+    while(j--) {
+      
+      if (j !== exclude && games[j]["playerIds"].indexOf(socket.id) !== -1) {
+        console.log("loop:"+j.toString());
+        
+        games[j]["connected"]--;
+        if (games[j]["connected"] === 0) {
+          // only one connected remove game
+          // for (var k = 0; k < games[j]["playerIds"].length; k++) {    
+          //   if (games[j]["playerIds"][k] !== socket.id && games[j]["playerIds"][k] !== "") {
+          //     io.to(games[j]["playerIds"][k]).emit("onServerMsg", {
+          //       action: "onGameAborted",
+          //       game: games[j],
+          //     });
+          //     console.log("Sent abort message!");
+          //   }                  
+          // }
+          games.splice(j, 1);
+        } else if (games[j]["gameStarted"]) {
+          // Set player as inactive by clearing the userId
+          games[j]["playerIds"][games[j]["playerIds"].indexOf(socket.id)] = "";
+        } else {
+          var index = games[j]["playerIds"].indexOf(socket.id);                
+          games[j]["playerIds"].splice(index, 1);
+          games[j]["playerIds"].splice(games[j]["playerIds"].length, 0, "");
+          games[j]["userNames"].splice(index, 1);
+          games[j]["userNames"].splice(games[j]["playerIds"].length, 0, "");
+          console.log("removed player from game:")
+        }
+        
+      }
+    }
+  }
+
+  socket.on("disconnect", () => {
+    removePlayer();
+    
+    io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+    
+    console.log("client disconnect...", socket.id);
+  });
+});
+
+var server_port = process.env.PORT || 3001;
+server.listen(server_port, function (err) {
+  if (err) throw err;
+  console.log("Listening on port %d", server_port);
+});
+
+app.post("/login", async (req, res, next) => {
+  var userName = req.body.email;
+  
+  var password = req.body.password;
+  try {
+    let results = await db.getLogin([userName]);
+    console.log(results);
+    if (results.length != 0) {
+      console.log("user exists");
+      if (password == results[0]["password"]) {
+        // user found and password match
+        var payload = {
+          username: userName,
+        };
+        console.log("Success");
+        res.sendStatus(200);
+      } else {
+        // Wrong password
+        res.sendStatus(500);
+      }
+    } else {
+      // no such user
+      res.sendStatus(500);
+    }
+  } catch (e) {
+    // database error
+    console.log(e);
+    res.sendStatus(500);
+  }
+  return;
+});
+
+app.post("/signup", async (req, res, next) => {
+  var userName = req.body.email;
+  
+  var password = req.body.password;
+  try {
+    let results = await db.getLogin([userName]);
+    console.log(results);
+    if (results.length == 0) {
+      console.log("Username not taken");
+      try {
+        console.log(password);
+        results = await db.setLogin([userName, password]);
+        res.sendStatus(200);
+        //res.send("success")
+      } catch (e) {
+        // cannot create user
+        console.log("error");
+        res.status(500);
+        res.send("error");
+      }
+    } else {
+      console.log("Username taken");
+      res.status(409);
+      res.send("User already exists");
+    }
+  } catch (e) {
+    // database error
+    console.log(e);
+    res.sendStatus(500);
+  }
+  return;
+});
+
+app.get("/GetTopScores", async (req, res, next) => {
+  console.log(req.query.count);
+  console.log(req.body);
+  try {
+    let results = await db.getTopScores(parseInt(req.query.count));
+    console.log(results);
+    res.status(200);
+    res.json(results);
+    console.log("got highscores");
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
+app.post("/UpdateAndReturnHighscore", async (req, res, next) => {
+  try {
+    let results = await db.updateHighScores([
+      req.body.name,
+      parseInt(req.body.score),
+    ]);
+    console.log(results[1]);
+    res.status(200);
+    res.json(results[1]);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
 ////////////////////////////////// BLOG //////////////////////////////////
 app.get('/api/articles/:name', async (req, res) => {
     const db = getDbConnection('my-blog');
@@ -144,10 +426,16 @@ app.delete('/todos/:id', (req, res) => {
 /////////////////////////////////////////////////////////////////////////////
 
 
-app.get("*", (req, res) => {
-   res.sendFile(path.join(__dirname + "/build/index.html"));
+app.get("/flutter", (req, res) => {
+   res.sendFile("/web/index.html", { root: __dirname });
 });
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html"));
+  //res.sendFile(path.join(__dirname + "/build/index.html"));
+ });
+
+ 
 initializeDbConnection()
     .then(() => {
         app.listen(PORT, () => {
