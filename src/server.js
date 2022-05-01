@@ -9,9 +9,11 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-//app.use(express.static(path.join(__dirname, "/build")));
-//app.use(express.static(path.join(__dirname, "/web")));
-app.use(express.static(path.join("C:/Users/J/StudioProjects/flutter_frontend/build/web")));
+app.use(express.static(path.join(__dirname, "/build")));
+app.use(express.static(path.join(__dirname, "/web")));
+//app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
+//app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
+
 app.use(express.json());
 
 // Add all the routes to our Express server
@@ -21,13 +23,21 @@ routes.forEach((route) => {
 });
 ////////////////////////////////// YATZY //////////////////////////////////
 const server = require("http").createServer(express);
-const io = require("socket.io")(server);
+const { Server } = require('socket.io');
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  }
+})
+//const io = require("socket.io")(server);
 
 var games = [];
 var gameId = 0;
+var clients = [];
 
 io.on("connection", (socket) => {
   console.log("client connect...", socket.id);
+  
 
   socket.on("sendToClients", (data) => {
     console.log(data);
@@ -39,11 +49,55 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("connectReact", (data) => {
+    console.log(data);
+    console.log("connectReact");
+    // Save client and corresponding ip address
+    clients.push({idReact: socket.id, idFlutter: "", ip: socket.conn.remoteAddress, settings: data});
+    console.log(clients[0])
+    console.log("IP: ", socket.conn.remoteAddress);
+    io.to(socket.id).emit("startFlutter", "");
+    //io.emit("startFlutter", "");
+  });
+
   socket.on("sendToServer", (data) => {
     console.log(data);
     switch (data["action"]) {
 
+      case "saveSettings": {
+        clients = clients.map(client => {
+          if (client.idFlutter ===  socket.id) {
+            
+            io.to(client.idReact).emit("saveSettings", data);
+          } 
+          return client;     
+        });
+        break;
+      }
       case "getId": {
+        console.log(clients[0].ip);
+        // Assume very unlikely two clients on same ip connect at same time. Have flag to only connect one flutter client to one react, probably in right order...
+        // Problem is at flutter it is very bad having html import and communication therefore want to not do that. Local storage react works nice since on same ip
+        // can connect different computers, if force login which is possible need different login each computer for settings save which is refreshed each web session.
+        // it is 100% and best but the redux local storage is still nice as option...
+        var isSet = false;
+        clients = clients.map(client => {
+          // temporarily until real ip address take first not set client and connect
+          // think it is common having code for local dev and online run
+          if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
+          //if (client.idFlutter === "" && !isSet) {
+            data["settings"] = client.settings;
+            isSet = true;
+            //return client;
+            return {...client, idFlutter: socket.id}
+          } else {
+            return client; 
+          }
+        });
+       
+        console.log(clients[0]);
+    
+        console.log("IP: ", socket.conn.remoteAddress);
         data["id"] = socket.id;
         data["action"] = "onGetId";
         io.to(socket.id).emit("onServerMsg", data);
@@ -274,7 +328,25 @@ app.get("/GetTopScores", async (req, res, next) => {
   console.log(req.query.count);
   console.log(req.body);
   try {
-    let results = await db.getTopScores(parseInt(req.query.count));
+    var results = [];
+    switch (req.query.type) {
+      case "Ordinary": {
+        console.log("getting ordinary");
+        results = await db.getTopScoresOrdinary(parseInt(req.query.count));
+        break;
+      }
+
+      case "Mini": {
+        results = await db.getTopScoresMini(parseInt(req.query.count));
+        break;
+      }
+
+      case "Maxi": {
+        results = await db.getTopScoresMaxi(parseInt(req.query.count));
+        break;
+      }
+   }
+    
     console.log(results);
     res.status(200);
     res.json(results);
@@ -285,12 +357,42 @@ app.get("/GetTopScores", async (req, res, next) => {
   }
 });
 
-app.post("/UpdateAndReturnHighscore", async (req, res, next) => {
+app.post("/UpdateHighscore", async (req, res, next) => {
+
   try {
-    let results = await db.updateHighScores([
-      req.body.name,
-      parseInt(req.body.score),
-    ]);
+    if (!Number.isInteger(req.body.count)) {
+      res.sendStatus(500);
+      return;
+    }
+    
+    var count = req.body.count.toString();
+    var results;
+    switch (req.body.type) {
+      case "Ordinary": {
+        results = results = await db.updateHighScoresOrdinary(req.body.count, [
+          req.body.name,
+          parseInt(req.body.score),
+        ]);
+        break;
+      }
+
+      case "Mini": {
+        results = results = await db.updateHighScoresMini(req.body.count, [
+          req.body.name,
+          parseInt(req.body.score),
+        ]);
+        break;
+      }
+
+      case "Maxi": {
+        results = results = await db.updateHighScoresMaxi(req.body.count, [
+          req.body.name,
+          parseInt(req.body.score),
+        ]);
+        break;
+      }
+   }
+   
     console.log(results[1]);
     res.status(200);
     res.json(results[1]);
@@ -299,6 +401,8 @@ app.post("/UpdateAndReturnHighscore", async (req, res, next) => {
     res.sendStatus(500);
   }
 });
+
+
 ////////////////////////////////// BLOG //////////////////////////////////
 app.get('/api/articles/:name', async (req, res) => {
     const db = getDbConnection('my-blog');
@@ -427,12 +531,15 @@ app.delete('/todos/:id', (req, res) => {
 
 
 app.get("/flutter", (req, res) => {
-   res.sendFile("/web/index.html", { root: __dirname });
+  //console.log(req.query.reactId);
+  //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+  res.sendFile("/web/index.html", { root: __dirname });
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html"));
-  //res.sendFile(path.join(__dirname + "/build/index.html"));
+  //res.sendFile("C:/Users/J/Desktop/react/proj/build/index.html");
+  //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+  res.sendFile(path.join(__dirname + "/build/index.html"));
  });
 
  

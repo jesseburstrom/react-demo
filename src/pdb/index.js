@@ -50,10 +50,10 @@ playerdb.setLogin = (user) => {
     });
 };
 
-playerdb.getTopScores = (count) => {
+playerdb.getTopScoresOrdinary = (count) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM highscores ORDER BY score DESC LIMIT ?",
+      "SELECT * FROM highscoresordinary ORDER BY score DESC LIMIT ?",
       count,
       (err, results) => {
         if (err) {
@@ -65,10 +65,70 @@ playerdb.getTopScores = (count) => {
   });
 };
 
-playerdb.updateHighScores = (score) => {
+playerdb.getTopScoresMini = (count) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO highscores (Name,Score) VALUES ?; SELECT * FROM highscores ORDER BY score DESC LIMIT 10",
+      "SELECT * FROM highscoresmini ORDER BY score DESC LIMIT ?",
+      count,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      }
+    );
+  });
+};
+
+playerdb.getTopScoresMaxi = (count) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM highscoresmaxi ORDER BY score DESC LIMIT ?",
+      count,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      }
+    );
+  });
+};
+
+playerdb.updateHighScoresOrdinary = (count, score) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "INSERT INTO highscoresordinary (Name,Score) VALUES ?; SELECT * FROM highscoresordinary ORDER BY score DESC LIMIT " + count,
+      [[score]],
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      }
+    );
+  });
+};
+
+playerdb.updateHighScoresMini = (count, score) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "INSERT INTO highscoresmini (Name,Score) VALUES ?; SELECT * FROM highscoresmini ORDER BY score DESC LIMIT " + count,
+      [[score]],
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      }
+    );
+  });
+};
+
+playerdb.updateHighScoresMaxi = (count, score) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "INSERT INTO highscoresmaxi (Name,Score) VALUES ?; SELECT * FROM highscoresmaxi ORDER BY score DESC LIMIT " + count,
       [[score]],
       (err, results) => {
         if (err) {
