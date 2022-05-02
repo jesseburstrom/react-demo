@@ -28,7 +28,7 @@ routes.forEach((route) => {
 });
 ////////////////////////////////// YATZY //////////////////////////////////
 const server = require("http").createServer(app);
-server.set('transports', ['websocket']);
+
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
