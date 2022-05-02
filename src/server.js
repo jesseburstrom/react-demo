@@ -34,6 +34,7 @@ const io = new Server(server, {
     origin: '*'
   }
 })
+io.set('transports', ['websocket']);
 //const io = require("socket.io")(server);
 
 var games = [];
