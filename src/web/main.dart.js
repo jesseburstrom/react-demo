@@ -69683,13 +69683,13 @@ while(true)switch(s){case 0:A.aH("connectToServer")
 try{n=t.N
 m=t.z
 l=A.z(["transports",A.b(["websocket"],t.s)],n,m)
-k=A.hb("https://clientsystem.net:3001")
+k=A.hb("http://192.168.0.168:8000")
 j=k.gdz()+"://"+k.gfL(k)+":"+k.gl1(k)
 i=k.gdK(k)
 h=$.aiv.ar(0,j)&&$.aiv.h(0,j).d.ar(0,i)
-if(J.f(l.h(0,"forceNew"),!0)||J.f(l.h(0,"force new connection"),!0)||!1===l.h(0,"multiplex")||h){$.avL().aT(B.m,"ignoring socket cache for https://clientsystem.net:3001",null,null)
-g=A.apS(l,"https://clientsystem.net:3001")}else{g=$.aiv.h(0,j)
-if(g==null){g=A.apS(l,"https://clientsystem.net:3001")
+if(J.f(l.h(0,"forceNew"),!0)||J.f(l.h(0,"force new connection"),!0)||!1===l.h(0,"multiplex")||h){$.avL().aT(B.m,"ignoring socket cache for http://192.168.0.168:8000",null,null)
+g=A.apS(l,"http://192.168.0.168:8000")}else{g=$.aiv.h(0,j)
+if(g==null){g=A.apS(l,"http://192.168.0.168:8000")
 $.aiv.l(0,j,g)}}if(k.giU(k).length!==0&&l.h(0,"query")==null)l.l(0,"query",k.giU(k))
 else if(t.f.b(l.h(0,"query")))l.l(0,"query",A.amd(l.h(0,"query")))
 f=k.gdK(k).length===0?"/":k.gdK(k)
@@ -69709,7 +69709,7 @@ return A.R($async$Bs,r)},
 rO(a){return this.Rd(a)},
 Rd(a){var s=0,r=A.S(t.z),q,p,o,n
 var $async$rO=A.T(function(b,c){if(b===1)return A.P(c,r)
-while(true)switch(s){case 0:p="http://clientsystem.net:8000"+a
+while(true)switch(s){case 0:p="http://localhost:8000"+a
 o=t.N
 s=3
 return A.W(A.aID(A.hb(p),A.z(["Content-Type","application/json; charset=UTF-8"],o,o)),$async$rO)
@@ -69722,7 +69722,7 @@ return A.R($async$rO,r)},
 wg(a,b){return this.afn(a,b)},
 afn(a,b){var s=0,r=A.S(t.z),q,p,o,n
 var $async$wg=A.T(function(c,d){if(c===1)return A.P(d,r)
-while(true)switch(s){case 0:o=A.hb("http://clientsystem.net:8000"+a)
+while(true)switch(s){case 0:o=A.hb("http://localhost:8000"+a)
 n=t.N
 n=A.z(["Content-Type","application/json; charset=UTF-8"],n,n)
 s=3
@@ -69736,7 +69736,7 @@ return A.R($async$wg,r)},
 vT(a,b){return this.ae6(a,b)},
 ae6(a,b){var s=0,r=A.S(t.z),q,p,o,n
 var $async$vT=A.T(function(c,d){if(c===1)return A.P(d,r)
-while(true)switch(s){case 0:p=A.hb("http://clientsystem.net:8000/Login")
+while(true)switch(s){case 0:p=A.hb("http://localhost:8000/Login")
 o=t.N
 n=A.z(["Content-Type","application/json; charset=UTF-8"],o,o)
 s=3
@@ -69749,7 +69749,7 @@ return A.R($async$vT,r)},
 tb(a,b){return this.Sr(a,b)},
 Sr(a,b){var s=0,r=A.S(t.z),q,p,o,n
 var $async$tb=A.T(function(c,d){if(c===1)return A.P(d,r)
-while(true)switch(s){case 0:p=A.hb("http://clientsystem.net:8000/Signup")
+while(true)switch(s){case 0:p=A.hb("http://localhost:8000/Signup")
 o=t.N
 n=A.z(["Content-Type","application/json; charset=UTF-8"],o,o)
 s=3

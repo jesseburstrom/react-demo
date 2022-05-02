@@ -9,10 +9,15 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "/build")));
-app.use(express.static(path.join(__dirname, "/web")));
-//app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
-//app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
+const isOnline = true;
+
+if (isOnline) {
+  app.use(express.static(path.join(__dirname, "/build")));
+  app.use(express.static(path.join(__dirname, "/web")));  
+} else {
+  app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));  
+}
 
 app.use(express.json());
 
@@ -22,7 +27,7 @@ routes.forEach((route) => {
   app[route.method](route.path, route.handler);
 });
 ////////////////////////////////// YATZY //////////////////////////////////
-const server = require("http").createServer(express);
+const server = require("http").createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
@@ -253,11 +258,11 @@ io.on("connection", (socket) => {
   });
 });
 
-var server_port = process.env.PORT || 3001;
-server.listen(server_port, function (err) {
-  if (err) throw err;
-  console.log("Listening on port %d", server_port);
-});
+// var server_port = process.env.PORT || 3001;
+// server.listen(server_port, function (err) {
+//   if (err) throw err;
+//   console.log("Listening on port %d", server_port);
+// });
 
 app.post("/login", async (req, res, next) => {
   var userName = req.body.email;
@@ -532,20 +537,25 @@ app.delete('/todos/:id', (req, res) => {
 
 app.get("/flutter", (req, res) => {
   //console.log(req.query.reactId);
-  //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
-  res.sendFile("/web/index.html", { root: __dirname });
+  if (isOnline) {
+    res.sendFile("/web/index.html", { root: __dirname });
+  } else {
+    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+  }
 });
 
 app.get("*", (req, res) => {
-  //res.sendFile("C:/Users/J/Desktop/react/proj/build/index.html");
-  //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
-  res.sendFile(path.join(__dirname + "/build/index.html"));
+  if (isOnline) {
+    res.sendFile(path.join(__dirname + "/build/index.html"));
+  } else {
+    res.sendFile("C:/Users/J/Desktop/react/proj/build/index.html");
+  }
  });
 
  
 initializeDbConnection()
     .then(() => {
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`Server is listening on port ${PORT}`);
         });
     });
