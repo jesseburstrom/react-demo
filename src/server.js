@@ -9,14 +9,46 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-const isOnline = true;
+
+const isOnline = false;
 
 if (isOnline) {
-  app.use(express.static(path.join(__dirname, "/build")));
-  app.use(express.static(path.join(__dirname, "/web")));  
+  app.use(express.static(path.join(__dirname, "/build"), {
+    setHeaders: function(res, path) {
+        if(path.endsWith(".gz")){
+            res.set("Content-Encoding", "gzip");
+        }
+    }
+  }));
+  app.use(express.static(path.join(__dirname, "/web"), {
+    setHeaders: function(res, path) {
+        if(path.endsWith(".gz")){
+            res.set("Content-Encoding", "gzip");
+        }
+    }
+  }));
 } else {
-  app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));  
+  app.use(express.static("C:/Users/J/Desktop/react/proj/build", {
+    setHeaders: function(res, path) {
+        if(path.endsWith(".gz")){
+            res.set("Content-Encoding", "gzip");
+        }
+    }
+  }));
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web", {
+    setHeaders: function(res, path) {
+        if(path.endsWith(".gz")){
+            res.set("Content-Encoding", "gzip");
+        }
+    }
+  }));
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary", {
+    setHeaders: function(res, path) {
+        if(path.endsWith(".gz")){
+            res.set("Content-Encoding", "gzip");
+        }
+    }
+  }));
 }
 
 app.use(express.json());
@@ -81,7 +113,7 @@ io.on("connection", (socket) => {
         break;
       }
       case "getId": {
-        console.log(clients[0].ip);
+        //console.log(clients[0].ip);
         // Assume very unlikely two clients on same ip connect at same time. Have flag to only connect one flutter client to one react, probably in right order...
         // Problem is at flutter it is very bad having html import and communication therefore want to not do that. Local storage react works nice since on same ip
         // can connect different computers, if force login which is possible need different login each computer for settings save which is refreshed each web session.
@@ -90,8 +122,8 @@ io.on("connection", (socket) => {
         clients = clients.map(client => {
           // temporarily until real ip address take first not set client and connect
           // think it is common having code for local dev and online run
-          if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
-          //if (client.idFlutter === "" && !isSet) {
+          //if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
+          if (client.idFlutter === "" && !isSet) {
             data["settings"] = client.settings;
             isSet = true;
             //return client;
@@ -539,9 +571,11 @@ app.delete('/todos/:id', (req, res) => {
 app.get("/flutter", (req, res) => {
   //console.log(req.query.reactId);
   if (isOnline) {
-    res.sendFile("/web/index.html", { root: __dirname });
+    res.sendFile("/build/UnityLibrary/index.html", { root: __dirname });
+    //res.sendFile("/web/index.html", { root: __dirname });
   } else {
-    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/index.html");
+    //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
   }
 });
 
@@ -549,7 +583,8 @@ app.get("*", (req, res) => {
   if (isOnline) {
     res.sendFile(path.join(__dirname + "/build/index.html"));
   } else {
-    res.sendFile("C:/Users/J/Desktop/react/proj/build/index.html");
+    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+    //res.sendFile("C:/Users/J/Desktop/react/proj/build/index.html");
   }
  });
 
