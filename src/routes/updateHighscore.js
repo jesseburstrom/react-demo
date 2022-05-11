@@ -46,7 +46,7 @@ export const updateHighscore = {
             }
         
             console.log("result ", results);
-            res.status(200).json(results.value);    
+            res.status(200).json(results);    
         } catch (e) {
             console.log(e);
             res.sendStatus(500);  
