@@ -8,9 +8,9 @@ const db = require("./pdb");
 const PORT = process.env.PORT || 8000;
 
 const app = express();
+express.static.mime.define({'application/wasm': ['wasm']})
 
-
-const isOnline = false;
+const isOnline = true;
 
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build"), {
@@ -31,21 +31,52 @@ if (isOnline) {
   app.use(express.static("C:/Users/J/Desktop/react/proj/build", {
     setHeaders: function(res, path) {
         if(path.endsWith(".gz")){
-            res.set("Content-Encoding", "gzip");
+          console.log("found gz");
+          res.set("Content-Encoding", "gzip");
         }
+        if(path.endsWith(".wasm.gz") || path.endsWith(".loader.js")){
+          res.set("Content-Type", "application/wasm");
+          console.log("found other");
+        }
+      
     }
   }));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web", {
     setHeaders: function(res, path) {
-        if(path.endsWith(".gz")){
-            res.set("Content-Encoding", "gzip");
-        }
+      //var url = convertURL(req.url);
+        
+      if(path.endsWith(".gz")){
+        console.log("found gz");
+        res.set("Content-Encoding", "gzip");
+      }
+      if(path.endsWith(".wasm")){
+        res.set("Content-Type", "application/wasm");
+        console.log("found other");
+      }
     }
   }));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary", {
     setHeaders: function(res, path) {
         if(path.endsWith(".gz")){
-            res.set("Content-Encoding", "gzip");
+          console.log("found gz");
+          res.set("Content-Encoding", "gzip");
+        }
+        if(path.endsWith(".wasm.gz") || path.endsWith(".loader.js")){
+          console.log("found other");
+          res.set("Content-Type", "application/wasm");
+        }
+    }
+  }));
+
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/Build", {
+    setHeaders: function(res, path) {
+        if(path.endsWith(".gz")){
+          console.log("found gz");
+          res.set("Content-Encoding", "gzip");
+        }
+        if(path.endsWith(".wasm.gz") || path.endsWith(".loader.js")){
+          console.log("found other");
+          res.set("Content-Type", "application/wasm");
         }
     }
   }));
@@ -62,12 +93,16 @@ routes.forEach((route) => {
 const server = require("http").createServer(app);
 
 const { Server } = require('socket.io');
-const io = new Server(server, {
-  cors: {
-    origin: '*'
-  }
-})
-//const io = require("socket.io")(server);
+var io;
+if (isOnline) {
+  io = new Server(server, {
+    cors: {
+      origin: '*'
+    }
+  })  
+} else {
+  io = require("socket.io")(server);  
+}
 
 var games = [];
 var gameId = 0;

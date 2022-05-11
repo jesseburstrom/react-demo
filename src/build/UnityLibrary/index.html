@@ -3,21 +3,27 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | unity_yatzy</title>
+    <title>Unity WebGL Player | Unity 2022.1.0b5</title>
   </head>
   <body style="text-align: center">
-    
+
     <script src="Build/UnityLibrary.loader.js"></script>
     
             <script>
-              var width = (window.innerWidth-10);
-              var height = (window.innerHeight-20);
+              var width = (window.innerWidth-50);
+              var height = (window.innerHeight-50);
+              console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
               console.log("width: " + width + " height: " + height);
-              var txtStyle = ' style=" width: "' + width + " height: " + height +' background: transparent !important"></canvas>';
-              var txtCanvas = '<canvas id="unity-canvas" width=' + width + " height="+ height;
-              console.log(txtCanvas);
-              console.log(txtStyle);
-              document.body.innerHTML +=  txtCanvas +  txtStyle;
+
+              var canvas = document.createElement('canvas');
+              canvas.id     = "unity-canvas";
+              canvas.width  = width;
+              canvas.height = height;
+              canvas.style.width = width + "px";
+              canvas.style.height = height + "px";
+              canvas.style.background = "transparent";
+              document.body.appendChild(canvas);
+
               var mainUnityInstance;
 
               window['handleUnityMessage'] = function (params) {
@@ -57,12 +63,12 @@
       }
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/UnityLibrary.data.gz",
-        frameworkUrl: "Build/UnityLibrary.framework.js.gz",
-        codeUrl: "Build/UnityLibrary.wasm.gz",
+        dataUrl: "Build/UnityLibrary.data",
+        frameworkUrl: "Build/UnityLibrary.framework.js",
+        codeUrl: "Build/UnityLibrary.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
-        productName: "unity_yatzy",
+        productName: "Unity 2022.1.0b5",
         productVersion: "0.1",
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
