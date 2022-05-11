@@ -14432,7 +14432,7 @@ afC:function afC(a){this.a=a},
 Ja:function Ja(a,b,c,d,e){var _=this
 _.B=a
 _.qJ$=b
-_.O9$=c
+_.O8$=c
 _.qK$=d
 _.r1=_.k4=null
 _.r2=!1
@@ -20174,6 +20174,7 @@ a.w=q.h(p,"nrPlayers")
 a.dv=q.h(p,"boardAnimation")
 $.alF=q.h(p,"language")
 $.c1().uo()}A.az("onGetId")
+$.v5().rG("Giz",205)
 s=3
 break
 case 5:q=t.z
@@ -20819,7 +20820,7 @@ UK:function UK(a){this.a=a},
 a_G:function a_G(a,b,c,d){var _=this
 _.b=a
 _.nR$=b
-_.O8$=c
+_.O9$=c
 _.a=d},
 a1O:function a1O(){},
 a_H:function a_H(a){this.a=a},
@@ -21018,8 +21019,8 @@ FK:function FK(a){this.a=a},
 aEI(a,b){var s=new Uint8Array(0),r=$.avH().b
 if(!r.test(a))A.X(A.fQ(a,"method","Not a valid method"))
 r=t.N
-return new A.a5E(B.E,s,a,b,A.xB(new A.Vw(),new A.Vx(),null,r,r))},
-a5E:function a5E(a,b,c,d,e){var _=this
+return new A.a5F(B.E,s,a,b,A.xB(new A.Vw(),new A.Vx(),null,r,r))},
+a5F:function a5F(a,b,c,d,e){var _=this
 _.y=a
 _.z=b
 _.a=c
@@ -21318,7 +21319,7 @@ _.c=c},
 abG:function abG(a){this.a=a},
 abE:function abE(a){this.a=a},
 abF:function abF(a){this.a=a},
-a5F:function a5F(a,b,c){var _=this
+a5E:function a5E(a,b,c){var _=this
 _.x=_.r=_.d=$
 _.cx=_.z=null
 _.cy=$
@@ -54457,7 +54458,7 @@ if(A.aHT(a,r,t.qt))return
 r=s.qK$
 if(r!=null)r.m(0)
 s.qK$=A.aGK(b,a)
-s.O9$=b},
+s.O8$=b},
 bW(a,b){var s,r=this
 if(r.qJ$===B.uq||!r.rx.u(0,b))return!1
 s=new A.mW(b,r)
@@ -54472,7 +54473,7 @@ gnB(a){return B.yb},
 gwG(){return!0},
 hn(a,b){var s
 if(t.c.b(a))this.qK$.uE(a)
-if(t.XA.b(a)){s=this.O9$
+if(t.XA.b(a)){s=this.O8$
 if(s!=null)s.$1(a)}}}
 A.PE.prototype={
 ak(a){var s=this.qK$,r=s.cy
@@ -70073,7 +70074,7 @@ $S:13}
 A.UJ.prototype={
 xt(a){var s=this,r="animationController",q=A.b7(null,B.BQ,null,null,a)
 s.nR$=q
-s.O8$=new A.aD(A.a(q,r),new A.fg(B.fs),t.HY.j("aD<av.T>"))
+s.O9$=new A.aD(A.a(q,r),new A.fg(B.fs),t.HY.j("aD<av.T>"))
 A.a(s.nR$,r).co(new A.UK(s))
 A.a(s.nR$,r).bs(0)}}
 A.UK.prototype={
@@ -70142,7 +70143,7 @@ A.a_J.prototype={
 $2(a,b){var s,r,q,p=this,o=null,n=p.c,m=p.d,l=A.VI(B.hh,1),k=A.EU(10),j=B.d.aH(127.5)
 j=A.b([A.Y(j,105,240,174),A.Y(j,64,196,255)],t.t_)
 s=p.f
-r=A.a(s.O8$,"loopAnimation")
+r=A.a(s.O9$,"loopAnimation")
 q=r.b
 r=r.a
 r=A.b([0,q.a8(0,r.gn(r))],t.u)
@@ -70831,7 +70832,7 @@ $S:412}
 A.FK.prototype={
 i(a){return this.a},
 $icw:1}
-A.a5E.prototype={
+A.a5F.prototype={
 gqu(a){var s,r,q=this
 if(q.gj6()==null||!q.gj6().c.a.au(0,"charset"))return q.y
 s=q.gj6().c.a.h(0,"charset")
@@ -71838,7 +71839,7 @@ s.l(b,n,p.cy)
 s.l(b,m,A.a(p.aV,m))
 r=t.N
 q=t.sB
-q=new A.a5F(A.c5(r,q),A.c5(r,q),A.b([],t.hx))
+q=new A.a5E(A.c5(r,q),A.c5(r,q),A.b([],t.hx))
 r=s.h(b,"method")
 q.cy=r==null?"GET":r
 q.d=s.h(b,"uri")
@@ -71872,7 +71873,7 @@ $S:1}
 A.abF.prototype={
 $1(a){this.a.wc(0,"xhr poll error",a)},
 $S:1}
-A.a5F.prototype={
+A.a5E.prototype={
 abQ(a){var s,r,q,p,o,n=this,m=null,l="method",k="Content-type",j=new XMLHttpRequest()
 n.cx=j
 s=j
@@ -75222,12 +75223,12 @@ q(A.Me,A.aaJ)
 q(A.a46,A.Jt)
 q(A.F0,A.EM)
 q(A.pC,A.os)
-q(A.a5E,A.EN)
+q(A.a5F,A.EN)
 p(A.Vy,[A.ri,A.t0])
 q(A.vO,A.bc)
 q(A.nx,A.a9j)
 p(A.nx,[A.Jf,A.M4,A.Mi])
-p(A.iC,[A.a8x,A.aaB,A.a5F,A.HS,A.zE,A.Xi])
+p(A.iC,[A.a8x,A.aaB,A.a5E,A.HS,A.zE,A.Xi])
 p(A.aaB,[A.r6,A.ab_])
 p(A.r6,[A.a14,A.abD])
 q(A.GI,A.La)
@@ -78872,7 +78873,6 @@ c7=A.aC2(a0)
 c9.d=c8
 c9.e=c7
 c9.BD()
-$.v5().rG("Giz",205)
 A.az("after app init")
 return a0})
 r($,"aOs","ao1",()=>{var q=null,p="Swedish",o=A.zW(q),n=A.zW(q),m=A.zW(q),l=A.zW(q),k=t.N,j=A.A(["English","* Required"],k,k),i=A.A(["English","Password should be atleast"],k,k),h=A.A(["English","characters"],k,k),g=A.A(["English","Password should not be greater than"],k,k),f=A.A(["English","Login"],k,k),e=A.A(["English","Signup"],k,k),d=A.A(["English","Email"],k,k),c=A.A(["English","Enter valid email id as abc@gmail.com"],k,k),b=A.A(["English","Password"],k,k),a=A.A(["English","Enter secure password"],k,k),a0=A.A(["English","Forgot Password"],k,k)
