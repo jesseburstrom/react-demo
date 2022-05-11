@@ -35,12 +35,28 @@ export const updateHighscore = {
                 }
         
                 case "Mini": {
-                
+                    await db
+                    .collection("mini")
+                    .insertOne(
+                        {name: req.body.name, score: req.body.score}
+                    );
+                    results = await db
+                    .collection("mini")
+                    .find({},{_id:0})
+                    .sort({"score":-1}).toArray();
                 break;
                 }
         
                 case "Maxi": {
-                
+                    await db
+                    .collection("maxi")
+                    .insertOne(
+                        {name: req.body.name, score: req.body.score}
+                    );
+                    results = await db
+                    .collection("maxi")
+                    .find({},{_id:0})
+                    .sort({"score":-1}).toArray();
                 break;
                 }
             }

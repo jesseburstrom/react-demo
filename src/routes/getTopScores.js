@@ -6,7 +6,7 @@ export const getTopScores = {
   method: "get",
   handler: async (req, res) => {
         
-    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TOP SCORES");
+    
         console.log(req.query.count);
 
         const db = getDbConnection("top-scores");
@@ -21,18 +21,20 @@ export const getTopScores = {
                     results = await db
                     .collection("ordinary")
                     .find({},{_id:0}).sort({"score":-1}).toArray();
-                    //.find({},{_id:0})
-                    //.sort({"score":-1});
                     break;
                 }
         
                 case "Mini": {
-                
+                    results = await db
+                    .collection("mini")
+                    .find({},{_id:0}).sort({"score":-1}).toArray();
                 break;
                 }
         
                 case "Maxi": {
-                
+                    results = await db
+                    .collection("maxi")
+                    .find({},{_id:0}).sort({"score":-1}).toArray();
                 break;
                 }
             }
