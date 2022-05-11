@@ -8,7 +8,6 @@ const db = require("./pdb");
 const PORT = process.env.PORT || 8000;
 
 const app = express();
-express.static.mime.define({'application/wasm': ['wasm']})
 
 const isOnline = true;
 
@@ -101,16 +100,17 @@ const server = require("http").createServer(app);
 //     }
 //   })  
 // } else {
-//   io = require("socket.io")(server);  
+var   io = require("socket.io")(server);  
 // }
 
-var io = require('socket.io')(server, { path: '/socket.io' });
+//var io = require('socket.io')(server, { path: '/socket.io' });
 
 var games = [];
 var gameId = 0;
 var clients = [];
 
-io.on("connection", (socket) => {
+io.on("connect", (socket) => {
+//  io.on("connection", (socket) => {
   console.log("client connect...", socket.id);
   
 
