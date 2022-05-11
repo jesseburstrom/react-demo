@@ -6,6 +6,7 @@ export const getTopScores = {
   method: "get",
   handler: async (req, res) => {
         
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TOP SCORES");
         console.log(req.query.count);
 
         const db = getDbConnection("top-scores");
