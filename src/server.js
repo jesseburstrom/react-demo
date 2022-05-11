@@ -94,7 +94,7 @@ const server = require("http").createServer(app);
 
 const { Server } = require('socket.io');
 var io;
-if (isOnline) {
+if (!isOnline) {
   io = new Server(server, {
     cors: {
       origin: '*'
