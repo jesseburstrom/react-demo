@@ -24,8 +24,8 @@ export const updateHighscore = {
                     console.log("getting ordinary game topscores");
                     await db
                     .collection("ordinary")
-                    .insert(
-                        [{name: req.body.name, score: req.body.score}]
+                    .insertOne(
+                        {name: req.body.name, score: req.body.score}
                     );
                     results = await db
                     .collection("ordinary")
