@@ -92,17 +92,19 @@ routes.forEach((route) => {
 ////////////////////////////////// YATZY //////////////////////////////////
 const server = require("http").createServer(app);
 
-const { Server } = require('socket.io');
-var io;
-if (!isOnline) {
-  io = new Server(server, {
-    cors: {
-      origin: '*'
-    }
-  })  
-} else {
-  io = require("socket.io")(server);  
-}
+// const { Server } = require('socket.io');
+// var io;
+// if (!isOnline) {
+//   io = new Server(server, {
+//     cors: {
+//       origin: '*'
+//     }
+//   })  
+// } else {
+//   io = require("socket.io")(server);  
+// }
+
+var io = require('socket.io')(server, { path: '/socket.io' });
 
 var games = [];
 var gameId = 0;
