@@ -21,9 +21,9 @@ const isOnline = true;
 
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build")));
-  app.use(express.static(path.join(__dirname, "/build/UnityLibrary")));
-  app.use(express.static(path.join(__dirname, "/build/UnityLibrary/Build")));
-  app.use(express.static(path.join(__dirname, "/web")));
+  app.use("/flutter", express.static(path.join(__dirname, "/build/UnityLibrary")));
+  app.use("/flutter", express.static(path.join(__dirname, "/build/UnityLibrary/Build")));
+  //app.use(express.static(path.join(__dirname, "/web")));
 } else {
   app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
