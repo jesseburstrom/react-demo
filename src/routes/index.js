@@ -4,6 +4,8 @@ import { getLogRoute } from "./getLogRoute";
 import { signUpRoute } from "./signUpRoute";
 import { testRoute } from "./testRoute";
 import { updateUserInfoRoute } from "./updateUserInfoRoute";
+import { getTopScores } from './getTopScores';
+import { updateHighscore } from './updateHighscore';
 
 export const routes = [
   logRoute,
@@ -12,4 +14,6 @@ export const routes = [
   signUpRoute,
   testRoute,
   updateUserInfoRoute,
+  getTopScores,
+  updateHighscore,
 ];
