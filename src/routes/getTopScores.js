@@ -20,11 +20,7 @@ export const getTopScores = {
                     console.log("getting ordinary game topscores");
                     results = await db
                     .collection("ordinary")
-                    .find({}).toArray(function(err, result) {
-                        if (err) throw err;
-                        console.log(result);
-                        db.close();
-                      });
+                    .find({},{_id:0}).toArray();
                     //.find({},{_id:0})
                     //.sort({"score":-1});
                     break;
