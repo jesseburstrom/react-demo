@@ -12,12 +12,12 @@ export const updateHighscore = {
 
         var results = [];
         try {
-            if (!Number.isInteger(req.body.count)) {
-                res.sendStatus(500);
-                return;
-            }
+            // if (!Number.isInteger(req.body.count)) {
+            //     res.sendStatus(500);
+            //     return;
+            // }
 
-            switch (req.query.type) {
+            switch (req.body.type) {
 
                 case "Ordinary": {
                 
