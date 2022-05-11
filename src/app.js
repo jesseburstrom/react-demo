@@ -103,7 +103,7 @@ const server = require("http").createServer(app);
 var   io = require("socket.io")(server, {
   cors: {
     //origin: "https://clientsystem.net",
-    origin: "http://ec2-54-208-247-197.compute-1.amazonaws.com:3001",
+    origin: "http://ec2-54-208-247-197.compute-1.amazonaws.com",
     methods: ["GET", "POST"]
   },
   transports: ["websocket"]
@@ -335,11 +335,11 @@ io.on("connect", (socket) => {
   });
 });
 
-var server_port = process.env.PORT || 3001;
-server.listen(server_port, function (err) {
-  if (err) throw err;
-  console.log("Listening on port %d", server_port);
-});
+// var server_port = process.env.PORT || 3001;
+// server.listen(server_port, function (err) {
+//   if (err) throw err;
+//   console.log("Listening on port %d", server_port);
+// });
 
 app.post("/login", async (req, res, next) => {
   var userName = req.body.email;
@@ -633,10 +633,10 @@ app.get("*", (req, res) => {
  });
 
  
-// initializeDbConnection()
-//     .then(() => {
-//         server.listen(PORT, () => {
-//             console.log(`Server is listening on port ${PORT}`);
-//         });
-//     });
+initializeDbConnection()
+    .then(() => {
+        server.listen(PORT, () => {
+            console.log(`Server is listening on port ${PORT}`);
+        });
+    });
 
