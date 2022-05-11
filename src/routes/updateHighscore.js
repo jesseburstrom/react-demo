@@ -25,12 +25,12 @@ export const updateHighscore = {
                     await db
                     .collection("ordinary")
                     .insert(
-                        {name: req.body.name, score: req.body.score}
+                        [{name: req.body.name, score: req.body.score}]
                     );
                     results = await db
                     .collection("ordinary")
                     .find({},{_id:0})
-                    .sort({"score":-1});
+                    .sort({"score":-1}).toArray();
                     break;
                 }
         
