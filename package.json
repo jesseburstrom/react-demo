@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "babel-node -r dotenv/config src/app.js",
-		"nod": "nodemon --exec npx babel-node -r dotenv/config src/app.js"
+		"start": "babel-node -r dotenv/config src/server.js",
+		"nod": "nodemon --exec npx babel-node -r dotenv/config src/server.js"
 	},
 	"keywords": [],
 	"author": "",
