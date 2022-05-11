@@ -333,11 +333,11 @@ io.on("connect", (socket) => {
   });
 });
 
-var server_port = process.env.PORT || 3001;
-server.listen(server_port, function (err) {
-  if (err) throw err;
-  console.log("Listening on port %d", server_port);
-});
+// var server_port = process.env.PORT || 3001;
+// server.listen(server_port, function (err) {
+//   if (err) throw err;
+//   console.log("Listening on port %d", server_port);
+// });
 
 app.post("/login", async (req, res, next) => {
   var userName = req.body.email;
@@ -633,7 +633,7 @@ app.get("*", (req, res) => {
  
 initializeDbConnection()
     .then(() => {
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`Server is listening on port ${PORT}`);
         });
     });
