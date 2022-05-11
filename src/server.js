@@ -406,83 +406,83 @@ app.post("/signup", async (req, res, next) => {
   return;
 });
 
-app.get("/GetTopScores", async (req, res, next) => {
-  console.log(req.query.count);
-  console.log(req.body);
-  try {
-    var results = [];
-    switch (req.query.type) {
-      case "Ordinary": {
-        console.log("getting ordinary");
-        results = await db.getTopScoresOrdinary(parseInt(req.query.count));
-        break;
-      }
+// app.get("/GetTopScores", async (req, res, next) => {
+//   console.log(req.query.count);
+//   console.log(req.body);
+//   try {
+//     var results = [];
+//     switch (req.query.type) {
+//       case "Ordinary": {
+//         console.log("getting ordinary");
+//         results = await db.getTopScoresOrdinary(parseInt(req.query.count));
+//         break;
+//       }
 
-      case "Mini": {
-        results = await db.getTopScoresMini(parseInt(req.query.count));
-        break;
-      }
+//       case "Mini": {
+//         results = await db.getTopScoresMini(parseInt(req.query.count));
+//         break;
+//       }
 
-      case "Maxi": {
-        results = await db.getTopScoresMaxi(parseInt(req.query.count));
-        break;
-      }
-   }
+//       case "Maxi": {
+//         results = await db.getTopScoresMaxi(parseInt(req.query.count));
+//         break;
+//       }
+//    }
     
-    console.log(results);
-    res.status(200);
-    res.json(results);
-    console.log("got highscores");
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
-  }
-});
+//     console.log(results);
+//     res.status(200);
+//     res.json(results);
+//     console.log("got highscores");
+//   } catch (e) {
+//     console.log(e);
+//     res.sendStatus(500);
+//   }
+// });
 
-app.post("/UpdateHighscore", async (req, res, next) => {
+// app.post("/UpdateHighscore", async (req, res, next) => {
 
-  try {
-    if (!Number.isInteger(req.body.count)) {
-      res.sendStatus(500);
-      return;
-    }
+//   try {
+//     if (!Number.isInteger(req.body.count)) {
+//       res.sendStatus(500);
+//       return;
+//     }
     
-    var count = req.body.count.toString();
-    var results;
-    switch (req.body.type) {
-      case "Ordinary": {
-        results = results = await db.updateHighScoresOrdinary(req.body.count, [
-          req.body.name,
-          parseInt(req.body.score),
-        ]);
-        break;
-      }
+//     var count = req.body.count.toString();
+//     var results;
+//     switch (req.body.type) {
+//       case "Ordinary": {
+//         results = results = await db.updateHighScoresOrdinary(req.body.count, [
+//           req.body.name,
+//           parseInt(req.body.score),
+//         ]);
+//         break;
+//       }
 
-      case "Mini": {
-        results = results = await db.updateHighScoresMini(req.body.count, [
-          req.body.name,
-          parseInt(req.body.score),
-        ]);
-        break;
-      }
+//       case "Mini": {
+//         results = results = await db.updateHighScoresMini(req.body.count, [
+//           req.body.name,
+//           parseInt(req.body.score),
+//         ]);
+//         break;
+//       }
 
-      case "Maxi": {
-        results = results = await db.updateHighScoresMaxi(req.body.count, [
-          req.body.name,
-          parseInt(req.body.score),
-        ]);
-        break;
-      }
-   }
+//       case "Maxi": {
+//         results = results = await db.updateHighScoresMaxi(req.body.count, [
+//           req.body.name,
+//           parseInt(req.body.score),
+//         ]);
+//         break;
+//       }
+//    }
    
-    console.log(results[1]);
-    res.status(200);
-    res.json(results[1]);
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
-  }
-});
+//     console.log(results[1]);
+//     res.status(200);
+//     res.json(results[1]);
+//   } catch (e) {
+//     console.log(e);
+//     res.sendStatus(500);
+//   }
+// });
 
 
 ////////////////////////////////// BLOG //////////////////////////////////
