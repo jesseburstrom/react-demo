@@ -11,74 +11,25 @@ const app = express();
 
 const isOnline = true;
 
-if (isOnline) {
-  app.use(express.static(path.join(__dirname, "/build"), {
-    setHeaders: function(res, path) {
-        if(path.endsWith(".gz")){
-            res.set("Content-Encoding", "gzip");
-        }
-    }
-  }));
-  app.use(express.static(path.join(__dirname, "/web"), {
-    setHeaders: function(res, path) {
-        if(path.endsWith(".gz")){
-            res.set("Content-Encoding", "gzip");
-        }
-    }
-  }));
-} else {
-  app.use(express.static("C:/Users/J/Desktop/react/proj/build", {
-    setHeaders: function(res, path) {
-        if(path.endsWith(".gz")){
-          console.log("found gz");
-          res.set("Content-Encoding", "gzip");
-        }
-        if(path.endsWith(".wasm.gz") || path.endsWith(".loader.js")){
-          res.set("Content-Type", "application/wasm");
-          console.log("found other");
-        }
-      
-    }
-  }));
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web", {
-    setHeaders: function(res, path) {
-      //var url = convertURL(req.url);
-        
-      if(path.endsWith(".gz")){
-        console.log("found gz");
-        res.set("Content-Encoding", "gzip");
-      }
-      if(path.endsWith(".wasm")){
-        res.set("Content-Type", "application/wasm");
-        console.log("found other");
-      }
-    }
-  }));
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary", {
-    setHeaders: function(res, path) {
-        if(path.endsWith(".gz")){
-          console.log("found gz");
-          res.set("Content-Encoding", "gzip");
-        }
-        if(path.endsWith(".wasm.gz") || path.endsWith(".loader.js")){
-          console.log("found other");
-          res.set("Content-Type", "application/wasm");
-        }
-    }
-  }));
+// setHeaders: function(res, path) {
+//   //var url = convertURL(req.url);
+    
+//   if(path.endsWith(".gz")){
+//     console.log("found gz");
+//     res.set("Content-Encoding", "gzip");
+//   }
 
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/Build", {
-    setHeaders: function(res, path) {
-        if(path.endsWith(".gz")){
-          console.log("found gz");
-          res.set("Content-Encoding", "gzip");
-        }
-        if(path.endsWith(".wasm.gz") || path.endsWith(".loader.js")){
-          console.log("found other");
-          res.set("Content-Type", "application/wasm");
-        }
-    }
-  }));
+if (isOnline) {
+  app.use(express.static(path.join(__dirname, "/build")));
+  app.use(express.static(path.join(__dirname, "/build/UnityLibrary")));
+  app.use(express.static(path.join(__dirname, "/build/UnityLibrary/Build")));
+  app.use(express.static(path.join(__dirname, "/web")));
+} else {
+  app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary"));
+
+  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/Build"));
 }
 
 app.use(express.json());
@@ -405,84 +356,6 @@ app.post("/signup", async (req, res, next) => {
   }
   return;
 });
-
-// app.get("/GetTopScores", async (req, res, next) => {
-//   console.log(req.query.count);
-//   console.log(req.body);
-//   try {
-//     var results = [];
-//     switch (req.query.type) {
-//       case "Ordinary": {
-//         console.log("getting ordinary");
-//         results = await db.getTopScoresOrdinary(parseInt(req.query.count));
-//         break;
-//       }
-
-//       case "Mini": {
-//         results = await db.getTopScoresMini(parseInt(req.query.count));
-//         break;
-//       }
-
-//       case "Maxi": {
-//         results = await db.getTopScoresMaxi(parseInt(req.query.count));
-//         break;
-//       }
-//    }
-    
-//     console.log(results);
-//     res.status(200);
-//     res.json(results);
-//     console.log("got highscores");
-//   } catch (e) {
-//     console.log(e);
-//     res.sendStatus(500);
-//   }
-// });
-
-// app.post("/UpdateHighscore", async (req, res, next) => {
-
-//   try {
-//     if (!Number.isInteger(req.body.count)) {
-//       res.sendStatus(500);
-//       return;
-//     }
-    
-//     var count = req.body.count.toString();
-//     var results;
-//     switch (req.body.type) {
-//       case "Ordinary": {
-//         results = results = await db.updateHighScoresOrdinary(req.body.count, [
-//           req.body.name,
-//           parseInt(req.body.score),
-//         ]);
-//         break;
-//       }
-
-//       case "Mini": {
-//         results = results = await db.updateHighScoresMini(req.body.count, [
-//           req.body.name,
-//           parseInt(req.body.score),
-//         ]);
-//         break;
-//       }
-
-//       case "Maxi": {
-//         results = results = await db.updateHighScoresMaxi(req.body.count, [
-//           req.body.name,
-//           parseInt(req.body.score),
-//         ]);
-//         break;
-//       }
-//    }
-   
-//     console.log(results[1]);
-//     res.status(200);
-//     res.json(results[1]);
-//   } catch (e) {
-//     console.log(e);
-//     res.sendStatus(500);
-//   }
-// });
 
 
 ////////////////////////////////// BLOG //////////////////////////////////
