@@ -102,7 +102,7 @@ const server = require("http").createServer(app);
 // } else {
 var   io = require("socket.io")(server, {
   cors: {
-    origin: "http://ec2-54-208-247-197.compute-1.amazonaws.com:8080",
+    origin: "http://ec2-54-208-247-197.compute-1.amazonaws.com:8000",
     methods: ["GET", "POST"]
   }
  });  
