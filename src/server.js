@@ -104,7 +104,8 @@ var   io = require("socket.io")(server, {
   cors: {
     origin: "https://clientsystem.net",
     methods: ["GET", "POST"]
-  }
+  },
+  transports: ["websocket"]
  });  
 // }
 
