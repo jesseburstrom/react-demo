@@ -8,7 +8,7 @@ export const updateHighscore = {
         
         console.log(req.query.count);
 
-        const db = getDbConnection("topSCores");
+        const db = getDbConnection("top-scores");
 
         var results = [];
         try {
@@ -24,8 +24,8 @@ export const updateHighscore = {
                     console.log("getting ordinary game topscores");
                     await db
                     .collection("ordinary")
-                    .insertMany(
-                        req.body
+                    .insert(
+                        {name: req.body.name, score: req.body.score}
                     );
                     results = await db
                     .collection("ordinary")

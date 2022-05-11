@@ -8,7 +8,7 @@ export const getTopScores = {
         
         console.log(req.query.count);
 
-        const db = getDbConnection("topSCores");
+        const db = getDbConnection("top-scores");
 
         var results = [];
         try {
