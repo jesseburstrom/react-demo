@@ -36,8 +36,8 @@ export const getTopScores = {
                 }
             }
         
-            console.log("result ", results.value);
-            res.status(200).json(results.value);
+            console.log("result ", results);
+            res.status(200).json(results);
         } catch (e) {
             console.log(e);
             res.sendStatus(500);  
