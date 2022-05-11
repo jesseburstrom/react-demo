@@ -20,8 +20,9 @@ export const getTopScores = {
                     console.log("getting ordinary game topscores");
                     results = await db
                     .collection("ordinary")
-                    .find({},{_id:0})
-                    .sort({"score":-1});
+                    .find();
+                    //.find({},{_id:0})
+                    //.sort({"score":-1});
                     break;
                 }
         
