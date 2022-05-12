@@ -21,7 +21,8 @@ const isOnline = true;
 
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build")));
-  app.use("/flutter", express.static(path.join(__dirname, "/build/UnityLibrary")));
+  app.use(express.static(path.join(__dirname, "/web")));
+  app.use(express.static(path.join(__dirname, "/web/UnityLibrary")));
   //app.use("/flutter", express.static(path.join(__dirname, "/build/UnityLibrary/Build")));
   //app.use(express.static(path.join(__dirname, "/web")));
 } else {
@@ -488,13 +489,25 @@ app.delete('/todos/:id', (req, res) => {
 app.get("/flutter", (req, res) => {
   //console.log(req.query.reactId);
   if (isOnline) {
-    res.sendFile("/build/UnityLibrary/index.html", { root: __dirname });
+    res.sendFile("/web/index.html", { root: __dirname });
     //res.sendFile("/web/index.html", { root: __dirname });
   } else {
     res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/index.html");
     //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
   }
 });
+
+app.get("/unity", (req, res) => {
+  //console.log(req.query.reactId);
+  if (isOnline) {
+    res.sendFile("/web/UnityLibrary/index.html", { root: __dirname });
+    //res.sendFile("/web/index.html", { root: __dirname });
+  } else {
+    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/index.html");
+    //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+  }
+});
+
 
 app.get("*", (req, res) => {
   if (isOnline) {
