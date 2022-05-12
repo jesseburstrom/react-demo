@@ -20200,7 +20200,7 @@ A.a(a.at,j)
 m.push(new A.bb(b,n,A.li(B.F,A.cR(l+B.e.i(3-A.a(a.at,j).ch),k,k,k,k,B.vD,k,k),B.aP),k))}return A.bT(k,A.FJ(m,B.az,B.de,B.aB),q,k,k,c,k,k,b)},
 aoC(a){return new A.UR(a)},
 aAv(a,b,c){var s,r,q,p,o,n,m,l,k,j,i,h=null,g=a.w,f=Math.min(350,b/(g/3+1.5)),e=a.Y,d=c/(e+1.5)
-f=Math.min(f,d*10)
+f=Math.min(f,d*5)
 s=(c-d*e)*0.75
 r=(b-f*((g-1)/3+1.5))/2
 for(g=a.dQ,q=a.dR,p=a.dq,o=a.df,n=0;n<e;++n){g[0][n]=f
