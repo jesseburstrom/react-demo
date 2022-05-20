@@ -8,6 +8,10 @@ const db = require("./pdb");
 const PORT = process.env.PORT || 8000;
 
 const app = express();
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
 
 const isOnline = true;
 
@@ -26,7 +30,7 @@ if (isOnline) {
   //app.use("/flutter", express.static(path.join(__dirname, "/build/UnityLibrary/Build")));
   //app.use(express.static(path.join(__dirname, "/web")));
 } else {
-  app.use(express.static("C:/Users/J/Desktop/react/proj/build"));
+  app.use(express.static("C:/Users/J/Desktop/proj/build"));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary"));
 
@@ -54,29 +58,37 @@ const server = require("http").createServer(app);
 // } else {
 var   io = require("socket.io")(server, {
   cors: {
-    origin: "https://clientsystem.net",
+    origin: '*',//isOnline ? "https://clientsystem.net" : "http://localhost:8000",
     //origin: "http://ec2-54-208-247-197.compute-1.amazonaws.com",
     methods: ["GET", "POST"]
   },
   transports: ["websocket"]
  });  
-// }
 
-//var io = require('socket.io')(server, { path: '/socket.io' });
+//  const WebSocket = require('ws');
+//  const wss = new WebSocket.Server({port: 8080}, () => {
+//    console.log('server started')
+//  })
+
+//  wss.on('connection', (ws)=>{
+//    ws.on('message',(data)=>{
+//     console.log('data recieved '+data);
+//     ws.send(data)
+//    })
+//  })
+ 
 
 var games = [];
 var gameId = 0;
 var clients = [];
 
 io.on("connect", (socket) => {
-//  io.on("connection", (socket) => {
-  console.log("client connect...", socket.id);
-  
+  console.log("client connect...", socket.id);  
 
   socket.on("sendToClients", (data) => {
     console.log(data);
     for (var i = 0; i < data["playerIds"].length; i++) {
-      if (data["playerIds"][i] != socket.id) {
+      if (data["playerIds"][i] != socket.id && data["playerIds"][i] != "") {
         console.log(data["playerIds"][i]);
         io.to(data["playerIds"][i]).emit("onClientMsg", data);
       }
@@ -101,11 +113,13 @@ io.on("connect", (socket) => {
       case "saveSettings": {
         clients = clients.map(client => {
           if (client.idFlutter ===  socket.id) {
-            
+            console.log("saveSettings nodejs");
+            console.log(client.idReact);
             io.to(client.idReact).emit("saveSettings", data);
           } 
           return client;     
         });
+        console.log("was here");
         break;
       }
       case "getId": {
@@ -123,6 +137,7 @@ io.on("connect", (socket) => {
             data["settings"] = client.settings;
             isSet = true;
             //return client;
+            console.log("")
             return {...client, idFlutter: socket.id}
           } else {
             return client; 
@@ -487,13 +502,11 @@ app.delete('/todos/:id', (req, res) => {
 
 
 app.get("/flutter", (req, res) => {
-  //console.log(req.query.reactId);
+  //console.log(req.query.unity);
   if (isOnline) {
-    res.sendFile("/web/index.html", { root: __dirname });
-    //res.sendFile("/web/index.html", { root: __dirname });
+      res.sendFile("/web/index.html", { root: __dirname });
   } else {
-    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/index.html");
-    //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+      res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
   }
 });
 
@@ -501,10 +514,8 @@ app.get("/unity", (req, res) => {
   //console.log(req.query.reactId);
   if (isOnline) {
     res.sendFile("/web/UnityLibrary/index.html", { root: __dirname });
-    //res.sendFile("/web/index.html", { root: __dirname });
   } else {
     res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/index.html");
-    //res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
   }
 });
 
@@ -513,8 +524,7 @@ app.get("*", (req, res) => {
   if (isOnline) {
     res.sendFile(path.join(__dirname + "/build/index.html"));
   } else {
-    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
-    //res.sendFile("C:/Users/J/Desktop/react/proj/build/index.html");
+    res.sendFile("C:/Users/J/Desktop/proj/build/index.html");
   }
  });
 
