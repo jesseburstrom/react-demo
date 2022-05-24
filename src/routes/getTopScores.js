@@ -7,7 +7,7 @@ export const getTopScores = {
   handler: async (req, res) => {
         
     
-        console.log(req.query.count);
+        //console.log(req.query.count);
 
         const db = getDbConnection("top-scores");
 
@@ -39,7 +39,7 @@ export const getTopScores = {
                 }
             }
         
-            console.log("result ", results);
+            //console.log("result ", results);
             res.status(200).json(results);
         } catch (e) {
             console.log(e);

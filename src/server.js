@@ -65,17 +65,44 @@ var   io = require("socket.io")(server, {
   transports: ["websocket"]
  });  
 
-//  const WebSocket = require('ws');
-//  const wss = new WebSocket.Server({port: 8080}, () => {
-//    console.log('server started')
-//  })
+ const WebSocket = require('ws');
+ const wss = new WebSocket.Server({port: 8080},  () => {
+   console.log('server started')
+ })
 
-//  wss.on('connection', (ws)=>{
-//    ws.on('message',(data)=>{
-//     console.log('data recieved '+data);
-//     ws.send(data)
-//    })
-//  })
+ var CLIENTS = [];
+
+ wss.on('connection', (ws, req)=>{
+   console.log("Client connected Websocket" );
+   CLIENTS.push(ws);
+   var isSet = false;
+   console.log(req.socket.remoteAddress);
+  clients = clients.map(client => {
+    // ws._socket.remoteAddress or req.socket.remoteAddress if have (ws, req) => ... gives ip
+    // behind reveres proxy nginx : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    // temporarily until real ip address take first not set client and connect
+    // think it is common having code for local dev and online run
+    //if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
+    if (client.idUnity === -1 && !isSet) {
+      isSet = true;
+      console.log("")
+      return {...client, idUnity: CLIENTS.length - 1}
+    } else {
+      return client; 
+    }
+  });
+   //console.log(wss.clients);
+   ws.on('message',(data)=>{
+    console.log('data recieved ' + data);
+    CLIENTS.map(client => {
+      if (client === ws) {
+        console.log("FOUND CLIENT!!!")
+      }
+      return client;
+    })
+    //ws.send(data)
+   })
+ })
  
 
 var games = [];
@@ -98,10 +125,11 @@ io.on("connect", (socket) => {
   socket.on("connectReact", (data) => {
     console.log(data);
     console.log("connectReact");
-    // Save client and corresponding ip address
-    clients.push({idReact: socket.id, idFlutter: "", ip: socket.conn.remoteAddress, settings: data});
+    // Save client and corresponding ip address socket.conn.remoteaddress
+    
+    clients.push({idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data});
     console.log(clients[0])
-    console.log("IP: ", socket.conn.remoteAddress);
+    console.log("IP: ", socket.handshake.headers["x-real-ip"]);
     io.to(socket.id).emit("startFlutter", "");
     //io.emit("startFlutter", "");
   });
@@ -110,6 +138,21 @@ io.on("connect", (socket) => {
     console.log(data);
     switch (data["action"]) {
 
+      case "flutterToUnity": {
+        // Get Unity ws 'client' and pass on data
+        console.log("in clientsendtounity");
+        clients.map(client => {
+          if (client.idFlutter === socket.id) {
+            console.log("Found client send to unity");
+            console.log(client.idUnity);
+            if (client.idUnity != -1) {
+              CLIENTS[client.idUnity].send(JSON.stringify(data));
+            }
+          }
+          return client;
+        })
+        break;
+      }
       case "saveSettings": {
         clients = clients.map(client => {
           if (client.idFlutter ===  socket.id) {
@@ -128,25 +171,36 @@ io.on("connect", (socket) => {
         // Problem is at flutter it is very bad having html import and communication therefore want to not do that. Local storage react works nice since on same ip
         // can connect different computers, if force login which is possible need different login each computer for settings save which is refreshed each web session.
         // it is 100% and best but the redux local storage is still nice as option...
-        var isSet = false;
-        clients = clients.map(client => {
-          // temporarily until real ip address take first not set client and connect
-          // think it is common having code for local dev and online run
-          //if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
-          if (client.idFlutter === "" && !isSet) {
-            data["settings"] = client.settings;
-            isSet = true;
-            //return client;
-            console.log("")
-            return {...client, idFlutter: socket.id}
-          } else {
-            return client; 
-          }
-        });
+            
+        if (isOnline) {
+          var isSet = false;
+          clients = clients.map(client => {
+            if (client.ip === socket.handshake.headers["x-real-ip"] && client.idFlutter === "" && !isSet) {
+              data["settings"] = client.settings;
+              isSet = true;
+              console.log("flutter paired with react");
+              return {...client, idFlutter: socket.id}
+            } else {
+              return client; 
+            }
+          });
+        } else {
+          var isSet = false;
+          clients = clients.map(client => {
+            if (client.idFlutter === "" && !isSet) {
+              data["settings"] = client.settings;
+              isSet = true;
+              
+              return {...client, idFlutter: socket.id}
+            } else {
+              return client; 
+            }
+          });
+        }
        
         console.log(clients[0]);
     
-        console.log("IP: ", socket.conn.remoteAddress);
+        console.log("IP: ", socket.handshake.headers["x-real-ip"]);
         data["id"] = socket.id;
         data["action"] = "onGetId";
         io.to(socket.id).emit("onServerMsg", data);
@@ -373,58 +427,6 @@ app.post("/signup", async (req, res, next) => {
   return;
 });
 
-
-////////////////////////////////// BLOG //////////////////////////////////
-app.get('/api/articles/:name', async (req, res) => {
-    const db = getDbConnection('my-blog');
-    
-    const articleName = req.params.name;
-    await db.collection('articles').update({
-        name: articleName 
-        }, 
-        {
-        $setOnInsert: {name: articleName , upvotes: 0, comments: []}
-        },
-        {upsert: true})
-    const articleInfo = await db.collection('articles').findOne({ name: articleName })
-    res.status(200).json(articleInfo);  
-})
-
-app.post('/api/articles/:name/upvote', async (req, res) => {
-    const db = getDbConnection('my-blog');
-
-    const articleName = req.params.name;
-
-    const articleInfo = await db.collection('articles').findOne({ name: articleName });
-    await db.collection('articles').updateOne({ name: articleName }, {
-        '$set': {
-            upvotes: articleInfo.upvotes + 1,
-        },
-    });
-    const updatedArticleInfo = await db.collection('articles').findOne({ name: articleName });
-
-    res.status(200).json(updatedArticleInfo);
-});
-
-app.post('/api/articles/:name/add-comment', async (req, res) => {
-    const { username, text } = req.body;
-    const articleName = req.params.name;
-
-    const db = getDbConnection('my-blog');
-
-    const articleInfo = await db.collection('articles').findOne({ name: articleName });
-    await db.collection('articles').updateOne({ name: articleName }, {
-        '$set': {
-            comments: articleInfo.comments.concat({ username, text }),
-        },
-    });
-    const updatedArticleInfo = await db.collection('articles').findOne({ name: articleName });
-
-    res.status(200).json(updatedArticleInfo);
-  
-});
-
-/////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////// TODOLIST //////////////////////////////////
 var fakeTodos = [{
