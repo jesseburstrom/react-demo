@@ -79,7 +79,7 @@ var   io = require("socket.io")(server, {
    console.log(req.headers['x-real-ip']);
    if (isOnline) {
     clients = clients.map(client => {
-      if (client.ip === req.headers['x-real-ip'] && client.idFlutter === "" && !isSet) {
+      if (client.ip === req.headers['x-real-ip'] && client.idUnity === -1 && !isSet) {
         isSet = true;
         console.log("mapped unity")
         return {...client, idUnity: CLIENTS.length - 1}
