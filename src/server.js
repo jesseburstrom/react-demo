@@ -13,7 +13,7 @@ app.use(cors({
     origin: '*'
 }));
 
-const isOnline = false;
+const isOnline = true;
 
 // setHeaders: function(res, path) {
 //   //var url = convertURL(req.url);
