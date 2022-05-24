@@ -13,7 +13,7 @@ app.use(cors({
     origin: '*'
 }));
 
-const isOnline = true;
+const isOnline = false;
 
 // setHeaders: function(res, path) {
 //   //var url = convertURL(req.url);
@@ -76,8 +76,9 @@ var   io = require("socket.io")(server, {
    console.log("Client connected Websocket" );
    CLIENTS.push(ws);
    var isSet = false;
-   console.log(req.headers['x-real-ip']);
+   
    if (isOnline) {
+    console.log(req.headers['x-real-ip']);
     clients = clients.map(client => {
       if (client.ip === req.headers['x-real-ip'] && client.idUnity === -1 && !isSet) {
         isSet = true;
@@ -133,13 +134,15 @@ io.on("connect", (socket) => {
   socket.on("connectReact", (data) => {
     console.log(data);
     console.log("connectReact");
-    // Save client and corresponding ip address socket.conn.remoteaddress
+    // Save client and corresponding ip address 
+    if (isOnline) {
+      console.log("IP: ", socket.handshake.headers["x-real-ip"]);
+      clients.push({idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data});
+    } else {
+      clients.push({idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.conn.remoteaddress, settings: data});
+    }
     
-    clients.push({idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data});
-    console.log(clients[0])
-    console.log("IP: ", socket.handshake.headers["x-real-ip"]);
     io.to(socket.id).emit("startFlutter", "");
-    //io.emit("startFlutter", "");
   });
 
   socket.on("sendToServer", (data) => {
@@ -148,7 +151,6 @@ io.on("connect", (socket) => {
 
       case "flutterToUnity": {
         // Get Unity ws 'client' and pass on data
-        console.log("in clientsendtounity");
         clients.map(client => {
           if (client.idFlutter === socket.id) {
             console.log("Found client send to unity");
@@ -165,12 +167,10 @@ io.on("connect", (socket) => {
         clients = clients.map(client => {
           if (client.idFlutter ===  socket.id) {
             console.log("saveSettings nodejs");
-            console.log(client.idReact);
             io.to(client.idReact).emit("saveSettings", data);
           } 
           return client;     
         });
-        console.log("was here");
         break;
       }
       case "getId": {
@@ -198,17 +198,13 @@ io.on("connect", (socket) => {
             if (client.idFlutter === "" && !isSet) {
               data["settings"] = client.settings;
               isSet = true;
-              
               return {...client, idFlutter: socket.id}
             } else {
               return client; 
             }
           });
         }
-       
-        console.log(clients[0]);
     
-        console.log("IP: ", socket.handshake.headers["x-real-ip"]);
         data["id"] = socket.id;
         data["action"] = "onGetId";
         io.to(socket.id).emit("onServerMsg", data);
