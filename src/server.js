@@ -66,7 +66,7 @@ var   io = require("socket.io")(server, {
  });  
 
  const WebSocket = require('ws');
- const wss = new WebSocket.Server({port: 8080},  () => {
+ const wss = new WebSocket.Server({port: 8001},  () => {
    console.log('server started')
  })
 
