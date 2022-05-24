@@ -76,24 +76,29 @@ var   io = require("socket.io")(server, {
    console.log("Client connected Websocket" );
    CLIENTS.push(ws);
    var isSet = false;
-   console.log(req.headers['x-forwarded-for']);
-
-   console.log(req.socket.remoteAddress);
    console.log(req.headers['x-real-ip']);
-  clients = clients.map(client => {
-    // ws._socket.remoteAddress or req.socket.remoteAddress if have (ws, req) => ... gives ip
-    // behind reverse proxy nginx : req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    // temporarily until real ip address take first not set client and connect
-    // think it is common having code for local dev and online run
-    //if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
-    if (client.idUnity === -1 && !isSet) {
-      isSet = true;
-      console.log("mapped unity")
-      return {...client, idUnity: CLIENTS.length - 1}
-    } else {
-      return client; 
-    }
-  });
+   if (isOnline) {
+    clients = clients.map(client => {
+      if (client.ip === req.headers['x-real-ip'] && client.idFlutter === "" && !isSet) {
+        isSet = true;
+        console.log("mapped unity")
+        return {...client, idUnity: CLIENTS.length - 1}
+      } else {
+        return client; 
+      }
+    });
+   } else {
+    clients = clients.map(client => {
+      if (client.idUnity === -1 && !isSet) {
+        isSet = true;
+        console.log("mapped unity")
+        return {...client, idUnity: CLIENTS.length - 1}
+      } else {
+        return client; 
+      }
+    });
+   }
+  
    //console.log(wss.clients);
    ws.on('message',(data)=>{
     console.log('data recieved ' + data);
