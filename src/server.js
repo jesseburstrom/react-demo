@@ -76,10 +76,13 @@ var   io = require("socket.io")(server, {
    console.log("Client connected Websocket" );
    CLIENTS.push(ws);
    var isSet = false;
+   console.log(req.headers['x-forwarded-for']);
+
    console.log(req.socket.remoteAddress);
+   console.log(req.headers['x-real-ip']);
   clients = clients.map(client => {
     // ws._socket.remoteAddress or req.socket.remoteAddress if have (ws, req) => ... gives ip
-    // behind reveres proxy nginx : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    // behind reverse proxy nginx : req.headers['x-forwarded-for'] || req.connection.remoteAddress
     // temporarily until real ip address take first not set client and connect
     // think it is common having code for local dev and online run
     //if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
