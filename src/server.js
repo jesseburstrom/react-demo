@@ -85,7 +85,7 @@ var   io = require("socket.io")(server, {
     //if (client.ip === socket.conn.remoteAddress && client.idFlutter === "" && !isSet) {
     if (client.idUnity === -1 && !isSet) {
       isSet = true;
-      console.log("")
+      console.log("mapped unity")
       return {...client, idUnity: CLIENTS.length - 1}
     } else {
       return client; 
