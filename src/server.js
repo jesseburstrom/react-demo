@@ -3,7 +3,6 @@ import { routes } from './routes';
 import { initializeDbConnection, getDbConnection } from './db';
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
-const db = require("./pdb");
 
 const PORT = process.env.PORT || 8000;
 
@@ -13,22 +12,14 @@ app.use(cors({
     origin: '*'
 }));
 
-const isOnline = true;
+const isOnline = false;
 
-// setHeaders: function(res, path) {
-//   //var url = convertURL(req.url);
-    
-//   if(path.endsWith(".gz")){
-//     console.log("found gz");
-//     res.set("Content-Encoding", "gzip");
-//   }
+
 
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build")));
   app.use(express.static(path.join(__dirname, "/web")));
   app.use(express.static(path.join(__dirname, "/web/UnityLibrary")));
-  //app.use("/flutter", express.static(path.join(__dirname, "/build/UnityLibrary/Build")));
-  //app.use(express.static(path.join(__dirname, "/web")));
 } else {
   app.use(express.static("C:/Users/J/Desktop/proj/build"));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
@@ -47,19 +38,9 @@ routes.forEach((route) => {
 ////////////////////////////////// YATZY //////////////////////////////////
 const server = require("http").createServer(app);
 
-// const { Server } = require('socket.io');
-// var io;
-// if (!isOnline) {
-//   io = new Server(server, {
-//     cors: {
-//       origin: '*'
-//     }
-//   })  
-// } else {
 var   io = require("socket.io")(server, {
   cors: {
-    origin: '*',//isOnline ? "https://clientsystem.net" : "http://localhost:8000",
-    //origin: "http://ec2-54-208-247-197.compute-1.amazonaws.com",
+    origin: '*',
     methods: ["GET", "POST"]
   },
   transports: ["websocket"]
@@ -83,6 +64,9 @@ var   io = require("socket.io")(server, {
       if (client.ip === req.headers['x-real-ip'] && client.idUnity === -1 && !isSet) {
         isSet = true;
         console.log("mapped unity")
+        // Send to Flutter unity ready for communication
+        console.log(client.idFlutter);
+        io.to(client.idFlutter).emit("onServerMsg", {action: "unityReady"});
         return {...client, idUnity: CLIENTS.length - 1}
       } else {
         return client; 
@@ -93,6 +77,9 @@ var   io = require("socket.io")(server, {
       if (client.idUnity === -1 && !isSet) {
         isSet = true;
         console.log("mapped unity")
+        // Send to Flutter unity ready for communication
+        console.log(client.idFlutter);
+        io.to(client.idFlutter).emit("onServerMsg", {action: "unityReady"});
         return {...client, idUnity: CLIENTS.length - 1}
       } else {
         return client; 
@@ -122,31 +109,27 @@ io.on("connect", (socket) => {
   console.log("client connect...", socket.id);  
 
   socket.on("sendToClients", (data) => {
-    console.log(data);
     for (var i = 0; i < data["playerIds"].length; i++) {
       if (data["playerIds"][i] != socket.id && data["playerIds"][i] != "") {
-        console.log(data["playerIds"][i]);
         io.to(data["playerIds"][i]).emit("onClientMsg", data);
       }
     }
   });
 
   socket.on("connectReact", (data) => {
-    console.log(data);
     console.log("connectReact");
-    // Save client and corresponding ip address 
+    // Save client and corresponding ip address, set timer to mark activity, after some limit remove to prevent abandoned or hung connections
     if (isOnline) {
       console.log("IP: ", socket.handshake.headers["x-real-ip"]);
-      clients.push({idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data});
+      clients.push({timer: Date.now(), idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data});
     } else {
-      clients.push({idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.conn.remoteaddress, settings: data});
+      clients.push({timer: Date.now(), idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.conn.remoteaddress, settings: data});
     }
     
     io.to(socket.id).emit("startFlutter", "");
   });
 
   socket.on("sendToServer", (data) => {
-    console.log(data);
     switch (data["action"]) {
 
       case "flutterToUnity": {
@@ -173,6 +156,7 @@ io.on("connect", (socket) => {
         });
         break;
       }
+      // Marks the connection of the Flutter part of the client, if no react create standalone connection
       case "getId": {
         //console.log(clients[0].ip);
         // Assume very unlikely two clients on same ip connect at same time. Have flag to only connect one flutter client to one react, probably in right order...
@@ -192,6 +176,10 @@ io.on("connect", (socket) => {
               return client; 
             }
           });
+          // No react match create standalone
+          if (!isSet) {
+            clients.push({timer: Date.now(), idReact: "", idFlutter: socket.id, idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: []});
+          }
         } else {
           var isSet = false;
           clients = clients.map(client => {
@@ -203,6 +191,9 @@ io.on("connect", (socket) => {
               return client; 
             }
           });
+          if (!isSet) {
+            clients.push({timer: Date.now(), idReact: "", idFlutter: socket.id, idUnity: -1, ip: socket.conn.remoteaddress, settings: []});
+          }
         }
     
         data["id"] = socket.id;
@@ -359,153 +350,6 @@ io.on("connect", (socket) => {
     console.log("client disconnect...", socket.id);
   });
 });
-
-// var server_port = process.env.PORT || 3001;
-// server.listen(server_port, function (err) {
-//   if (err) throw err;
-//   console.log("Listening on port %d", server_port);
-// });
-
-app.post("/login", async (req, res, next) => {
-  var userName = req.body.email;
-  
-  var password = req.body.password;
-  try {
-    let results = await db.getLogin([userName]);
-    console.log(results);
-    if (results.length != 0) {
-      console.log("user exists");
-      if (password == results[0]["password"]) {
-        // user found and password match
-        var payload = {
-          username: userName,
-        };
-        console.log("Success");
-        res.sendStatus(200);
-      } else {
-        // Wrong password
-        res.sendStatus(500);
-      }
-    } else {
-      // no such user
-      res.sendStatus(500);
-    }
-  } catch (e) {
-    // database error
-    console.log(e);
-    res.sendStatus(500);
-  }
-  return;
-});
-
-app.post("/signup", async (req, res, next) => {
-  var userName = req.body.email;
-  
-  var password = req.body.password;
-  try {
-    let results = await db.getLogin([userName]);
-    console.log(results);
-    if (results.length == 0) {
-      console.log("Username not taken");
-      try {
-        console.log(password);
-        results = await db.setLogin([userName, password]);
-        res.sendStatus(200);
-        //res.send("success")
-      } catch (e) {
-        // cannot create user
-        console.log("error");
-        res.status(500);
-        res.send("error");
-      }
-    } else {
-      console.log("Username taken");
-      res.status(409);
-      res.send("User already exists");
-    }
-  } catch (e) {
-    // database error
-    console.log(e);
-    res.sendStatus(500);
-  }
-  return;
-});
-
-
-////////////////////////////////// TODOLIST //////////////////////////////////
-var fakeTodos = [{
-    id: 'ae06181d-92c2-4fed-a29d-fb53a6301eb9',
-    text: 'Learn about React Ecosystems',
-    isCompleted: false,
-    createdAt: new Date(),
-}, {
-    id: 'cda9165d-c263-4ef6-af12-3f1271af5fb4',
-    text: 'Get together with friends',
-    isCompleted: false,
-    createdAt: new Date(Date.now() - 86400000 * 7),
-}, {
-    id: '2e538cc5-b734-4771-a109-dfcd204bb38b',
-    text: 'Buy groceries',
-    isCompleted: true,
-    createdAt: new Date(Date.now() - 86400000 * 14),
-}];
-
-// The route for getting a list of all todos
-app.get('/todos', (req, res) => {
-    res.status(200).json(fakeTodos);
-});
-
-// The route for getting a list of all todos, but with a delay
-// (to display the loading component better)
-app.get('/todos-delay', (req, res) => {
-    setTimeout(() => res.status(200).json(fakeTodos), 2000);
-});
-
-// The route for creating new todo-list items
-app.post('/todos', (req, res) => {
-    const { text } = req.body;
-    if (text) {
-        const insertedTodo = {
-            id: uuidv4(),
-            createdAt: Date.now(),
-            isCompleted: false,
-            text,
-        }
-        fakeTodos.push(insertedTodo);
-        res.status(200).json(insertedTodo);
-    } else {
-        res.status(400).json({ message: 'Request body should have a text property' });
-    }
-});
-
-app.post('/todos/:id/completed', (req, res) => {
-    const { id } = req.params;
-    const matchingTodo = fakeTodos.find(todo => todo.id === id);
-    const updatedTodo = {
-        ...matchingTodo,
-        isCompleted: true,
-    }
-    if (updatedTodo) {
-        fakeTodos = fakeTodos.map(todo =>
-            todo.id === id
-                ? updatedTodo
-                : todo);
-        res.status(200).json(updatedTodo);
-    } else {
-        res.status(400).json({ message: 'There is no todo with that id' });
-    }
-})
-
-// The route for deleting a todo-list item
-app.delete('/todos/:id', (req, res) => {
-    const { id } = req.params;
-    const removedTodo = fakeTodos.find(todo => todo.id === id);
-    fakeTodos = fakeTodos.filter(todo => todo.id !== id);
-    res.status(200).json(removedTodo);
-});
-
-/////////////////////////////////////////////////////////////////////////////
-
 
 app.get("/flutter", (req, res) => {
   //console.log(req.query.unity);

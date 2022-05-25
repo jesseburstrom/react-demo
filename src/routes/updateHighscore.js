@@ -5,17 +5,11 @@ export const updateHighscore = {
   path: "/UpdateHighscore",
   method: "post",
   handler: async (req, res) => {
-        
-        console.log(req.query.count);
 
         const db = getDbConnection("top-scores");
 
         var results = [];
         try {
-            // if (!Number.isInteger(req.body.count)) {
-            //     res.sendStatus(500);
-            //     return;
-            // }
 
             switch (req.body.type) {
 
@@ -60,8 +54,6 @@ export const updateHighscore = {
                 break;
                 }
             }
-        
-            console.log("result ", results);
             res.status(200).json(results);    
         } catch (e) {
             console.log(e);
