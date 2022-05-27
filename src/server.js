@@ -24,7 +24,6 @@ if (isOnline) {
   app.use(express.static("C:/Users/J/Desktop/proj/build"));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary"));
-
   app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/Build"));
 }
 
@@ -52,54 +51,26 @@ var   io = require("socket.io")(server, {
  })
 
  var CLIENTS = [];
-
- wss.on('connection', (ws, req)=>{
-   console.log("Client connected Websocket" );
-   CLIENTS.push(ws);
-   var isSet = false;
-   
-   if (isOnline) {
-    console.log(req.headers['x-real-ip']);
-    clients = clients.map(client => {
-      if (client.ip === req.headers['x-real-ip'] && client.idUnity === -1 && !isSet) {
-        isSet = true;
-        console.log("mapped unity")
-        // Send to Flutter unity ready for communication
-        console.log(client.idFlutter);
-        io.to(client.idFlutter).emit("onServerMsg", {action: "unityReady"});
-        return {...client, idUnity: CLIENTS.length - 1}
-      } else {
-        return client; 
-      }
-    });
-   } else {
-    clients = clients.map(client => {
-      if (client.idUnity === -1 && !isSet) {
-        isSet = true;
-        console.log("mapped unity")
-        // Send to Flutter unity ready for communication
-        console.log(client.idFlutter);
-        io.to(client.idFlutter).emit("onServerMsg", {action: "unityReady"});
-        return {...client, idUnity: CLIENTS.length - 1}
-      } else {
-        return client; 
-      }
-    });
-   }
-  
-   //console.log(wss.clients);
-   ws.on('message',(data)=>{
-    console.log('data recieved ' + data);
-    CLIENTS.map(client => {
-      if (client === ws) {
-        console.log("FOUND CLIENT!!!")
-      }
-      return client;
-    })
-    //ws.send(data)
-   })
- })
  
+ wss.on('connection', (ws, req)=>{
+  console.log("Client connected Websocket" );
+  var unityId = uuidv4();
+  console.log("unityId : " + unityId);
+  CLIENTS.push({ws: ws, unityId: unityId});
+  // Send uuid to Unity to send on to Flutter to communicate between!
+  ws.send(JSON.stringify({actionUnity: "unityIdentifier", unityId: unityId}))
+  
+  ws.on('message',(data)=>{
+   console.log('data recieved ' + data);
+   CLIENTS.map(client => {
+     if (client === ws) {
+       console.log("FOUND CLIENT!!!")
+     }
+     return client;
+   })
+  })
+})
+
 
 var games = [];
 var gameId = 0;
@@ -134,16 +105,15 @@ io.on("connect", (socket) => {
 
       case "flutterToUnity": {
         // Get Unity ws 'client' and pass on data
-        clients.map(client => {
-          if (client.idFlutter === socket.id) {
-            console.log("Found client send to unity");
-            console.log(client.idUnity);
-            if (client.idUnity != -1) {
-              CLIENTS[client.idUnity].send(JSON.stringify(data));
-            }
+        CLIENTS.map(client => {
+          if (data["unityId"] === client.unityId) {
+            console.log("Found client send to unity: " + data["actionUnity"] + " " + client.idUnity + " " + data["location"] );
+            
+            client.ws.send(JSON.stringify(data));
           }
           return client;
         })
+
         break;
       }
       case "saveSettings": {
@@ -158,7 +128,7 @@ io.on("connect", (socket) => {
       }
       // Marks the connection of the Flutter part of the client, if no react create standalone connection
       case "getId": {
-        //console.log(clients[0].ip);
+        console.log("getId");
         // Assume very unlikely two clients on same ip connect at same time. Have flag to only connect one flutter client to one react, probably in right order...
         // Problem is at flutter it is very bad having html import and communication therefore want to not do that. Local storage react works nice since on same ip
         // can connect different computers, if force login which is possible need different login each computer for settings save which is refreshed each web session.
@@ -215,7 +185,6 @@ io.on("connect", (socket) => {
 
       case "requestJoinGame": {
         console.log("Try Join Game: ");
-        console.log(data);
         //Find game from gameId and see if still availible and user not already connected
         for (var i = 0; i < games.length; i++) {
           if (data["gameId"] === games[i]["gameId"]) {
