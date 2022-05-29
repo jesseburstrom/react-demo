@@ -13,18 +13,18 @@ app.use(cors({
 }));
 
 const isOnline = false;
-
-
+const localFlutterDir = "C:/Users/J/StudioProjects/flutter_system";
+const localReactDir = "C:/Users/J/Desktop/proj";
 
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build")));
   app.use(express.static(path.join(__dirname, "/web")));
   app.use(express.static(path.join(__dirname, "/web/UnityLibrary")));
 } else {
-  app.use(express.static("C:/Users/J/Desktop/proj/build"));
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web"));
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary"));
-  app.use(express.static("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/Build"));
+  app.use(express.static(localReactDir + "/build"));
+  app.use(express.static(localFlutterDir + "/build/web"));
+  app.use(express.static(localFlutterDir + "/build/web/UnityLibrary"));
+  app.use(express.static(localFlutterDir + "/build/web/UnityLibrary/Build"));
 }
 
 app.use(express.json());
@@ -107,7 +107,7 @@ io.on("connect", (socket) => {
         // Get Unity ws 'client' and pass on data
         CLIENTS.map(client => {
           if (data["unityId"] === client.unityId) {
-            console.log("Found client send to unity: " + data["actionUnity"] + " " + client.idUnity + " " + data["location"] );
+            console.log("Found client send to unity: " + data["actionUnity"] + " " + client.unityId + " " + data["location"] );
             
             client.ws.send(JSON.stringify(data));
           }
@@ -284,16 +284,6 @@ io.on("connect", (socket) => {
         
         games[j]["connected"]--;
         if (games[j]["connected"] === 0) {
-          // only one connected remove game
-          // for (var k = 0; k < games[j]["playerIds"].length; k++) {    
-          //   if (games[j]["playerIds"][k] !== socket.id && games[j]["playerIds"][k] !== "") {
-          //     io.to(games[j]["playerIds"][k]).emit("onServerMsg", {
-          //       action: "onGameAborted",
-          //       game: games[j],
-          //     });
-          //     console.log("Sent abort message!");
-          //   }                  
-          // }
           games.splice(j, 1);
         } else if (games[j]["gameStarted"]) {
           // Set player as inactive by clearing the userId
@@ -325,7 +315,7 @@ app.get("/flutter", (req, res) => {
   if (isOnline) {
       res.sendFile("/web/index.html", { root: __dirname });
   } else {
-      res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/index.html");
+      res.sendFile(localFlutterDir + "/build/web/index.html");
   }
 });
 
@@ -334,7 +324,7 @@ app.get("/unity", (req, res) => {
   if (isOnline) {
     res.sendFile("/web/UnityLibrary/index.html", { root: __dirname });
   } else {
-    res.sendFile("C:/Users/J/StudioProjects/flutter_frontend/build/web/UnityLibrary/index.html");
+    res.sendFile(localFlutterDir + "/build/web/UnityLibrary/index.html");
   }
 });
 
@@ -343,7 +333,7 @@ app.get("*", (req, res) => {
   if (isOnline) {
     res.sendFile(path.join(__dirname + "/build/index.html"));
   } else {
-    res.sendFile("C:/Users/J/Desktop/proj/build/index.html");
+    res.sendFile(localReactDir + "/build/index.html");
   }
  });
 
