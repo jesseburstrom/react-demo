@@ -1,6 +1,6 @@
 # react-demo
 
-Server implementation of online portfolio 
+Server implementation of client system and my online portfolio 
 
 [Link To Client](https://github.com/jesseburstrom/proj/)
 
