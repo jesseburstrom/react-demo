@@ -1,78 +1,58 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Dice Yatzy</title>
-  </head>
-  <body style="text-align: center">
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-    <script src="Build/UnityLibrary.loader.js"></script>
-    
-            <script>
-              var width = (window.innerWidth-50);
-              var height = (window.innerHeight-50);
-              console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-              console.log("width: " + width + " height: " + height);
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
-              var canvas = document.createElement('canvas');
-              canvas.id     = "unity-canvas";
-              canvas.width  = width;
-              canvas.height = height;
-              canvas.style.width = width + "px";
-              canvas.style.height = height + "px";
-              canvas.style.background = "transparent";
-              document.body.appendChild(canvas);
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-              var mainUnityInstance;
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
 
-              window['handleUnityMessage'] = function (params) {
-                window.parent.postMessage({
-                    name: 'onUnityMessage',
-                    data: params,
-                   }, '*');
-              };
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Flutter Frontend">
 
-              window['handleUnitySceneLoaded'] = function (name, buildIndex, isLoaded, isValid) {
-                window.parent.postMessage({
-                    name: 'onUnitySceneLoaded',
-                    data: {
-                        'name': name,
-                        'buildIndex': buildIndex,
-                        'isLoaded': isLoaded == 1,
-                        'isValid': isValid == 1,
-                    }
-                   }, '*');
-              };
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="flutter_system">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-              window.parent.addEventListener('unityFlutterBiding', function (args) {
-                const obj = JSON.parse(args.data);
-                mainUnityInstance.SendMessage(obj.gameObject, obj.methodName, obj.message);
-              });
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
 
-              window.parent.addEventListener('unityFlutterBidingFnCal', function (args) {
-                mainUnityInstance.SendMessage('GameManager', 'HandleWebFnCall', args);
-              });
-            
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
+  <title>flutter_system</title>
+  <link rel="manifest" href="manifest.json">
 
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/UnityLibrary.data",
-        frameworkUrl: "Build/UnityLibrary.framework.js",
-        codeUrl: "Build/UnityLibrary.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Dice Yatzy",
-        productVersion: "0.1",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = '3690859742';
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        }
+      }).then(function(engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
