@@ -141,7 +141,7 @@ io.on("connect", (socket) => {
               data["settings"] = client.settings;
               isSet = true;
               console.log("flutter paired with react");
-              io.to(idReact).emit("setServerId", {serverId: serverId});
+              io.to(client.idReact).emit("setServerId", {serverId: serverId});
               io.to(socket.id).emit("onServerMsg", {action: "setServerId", serverId: serverId});
               return {...client, idFlutter: socket.id, serverId: serverId}
             } else {
