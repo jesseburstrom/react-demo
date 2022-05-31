@@ -12,7 +12,8 @@ app.use(cors({
     origin: '*'
 }));
 
-const isOnline = false;
+const isOnline = true;
+
 const localFlutterDir = "C:/Users/J/StudioProjects/flutter_system";
 const localReactDir = "C:/Users/J/Desktop/proj";
 
@@ -92,9 +93,9 @@ io.on("connect", (socket) => {
     // Save client and corresponding ip address, set timer to mark activity, after some limit remove to prevent abandoned or hung connections
     if (isOnline) {
       console.log("IP: ", socket.handshake.headers["x-real-ip"]);
-      clients.push({timer: Date.now(), idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data});
+      clients.push({timer: Date.now(), idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.handshake.headers["x-real-ip"], settings: data, serverId: ""});
     } else {
-      clients.push({timer: Date.now(), idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.conn.remoteaddress, settings: data});
+      clients.push({timer: Date.now(), idReact: socket.id, idFlutter: "", idUnity: -1, ip: socket.conn.remoteaddress, settings: data, serverId: ""});
     }
     
     io.to(socket.id).emit("startFlutter", "");
@@ -129,11 +130,10 @@ io.on("connect", (socket) => {
       // Marks the connection of the Flutter part of the client, if no react create standalone connection
       case "getId": {
         console.log("getId");
-        // Assume very unlikely two clients on same ip connect at same time. Have flag to only connect one flutter client to one react, probably in right order...
-        // Problem is at flutter it is very bad having html import and communication therefore want to not do that. Local storage react works nice since on same ip
-        // can connect different computers, if force login which is possible need different login each computer for settings save which is refreshed each web session.
-        // it is 100% and best but the redux local storage is still nice as option...
-            
+        // By checking ip address and using latest React connection to pair Flutter the probability is good it is right connection.
+        // Only if two clients connect at exact same time and the first have longer time starting Flutter could there be a mixup.
+        // At this pairing we send each client an uuid to identify after disconnect/reconnect events.
+        var serverId = uuidv4();
         if (isOnline) {
           var isSet = false;
           clients = clients.map(client => {
@@ -141,7 +141,9 @@ io.on("connect", (socket) => {
               data["settings"] = client.settings;
               isSet = true;
               console.log("flutter paired with react");
-              return {...client, idFlutter: socket.id}
+              io.to(idReact).emit("setServerId", {serverId: serverId});
+              io.to(socket.id).emit("onServerMsg", {action: "setServerId", serverId: serverId});
+              return {...client, idFlutter: socket.id, serverId: serverId}
             } else {
               return client; 
             }

@@ -43,16 +43,16 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "a3b0d695dd952eac4dbdf785dc544521",
-"/": "b329d43d43ae8a2512e007db58fd7864",
-"main.dart.js": "daec309b867870576d137c83d734a82d",
-"manifest.json": "4d3c7a6273d2c1c28562878f9cf047c8",
-"UnityLibrary/Build/UnityLibrary.data": "ff609d6a9800b5a4811ce55ae517714d",
-"UnityLibrary/Build/UnityLibrary.framework.js": "834593bfdc9e25b93e8660480c5650be",
+"index.html": "53433c4fea2679fc5ed350e20dbfd01c",
+"/": "7cfc20a75c683ddd3ebe0abc93f7690c",
+"main.dart.js": "97004dc5b95bef5e30129ab56764858d",
+"manifest.json": "3c9c0a4c1427016b6e684093bc2b47f7",
+"UnityLibrary/Build/UnityLibrary.data": "c2e4f90559dc615c022d62410919cb0b",
+"UnityLibrary/Build/UnityLibrary.framework.js": "ba1b0dc1f116a39b33991320bc86ebc5",
 "UnityLibrary/Build/UnityLibrary.loader.js": "a4d9b439a7bfef173a7a1f85297e11c0",
-"UnityLibrary/Build/UnityLibrary.wasm": "99c04dd487f7a0e3cfe967b4f99dc972",
-"UnityLibrary/index.html": "b329d43d43ae8a2512e007db58fd7864",
-"version.json": "6e219987ebc110d8f6d87e34448379f6"
+"UnityLibrary/Build/UnityLibrary.wasm": "cd1fd5091ff0f8dcc8b9474ba63e3c26",
+"UnityLibrary/index.html": "7cfc20a75c683ddd3ebe0abc93f7690c",
+"version.json": "f5b2c9e5cf4369be1dec7d3b1a40f7bc"
 };
 
 // The application shell files that are downloaded before a service worker can
