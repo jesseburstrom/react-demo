@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { getDbConnection } from "../db";
+import { getDbConnection } from "../db.js";
 
 export const getLogRoute = {
   path: "/api/getLog/:userId",
@@ -23,7 +23,7 @@ export const getLogRoute = {
       console.log("token verified");
       const { id } = decoded;
 
-      if (id !== userId){
+      if (id !== userId) {
         console.log("id mismatch");
         return res
           .status(403)
@@ -32,11 +32,7 @@ export const getLogRoute = {
 
       const db = getDbConnection("react-auth-db");
 
-      const result = await db
-        .collection("logs")
-        .find(
-          { insertedId: userId },
-        );
+      const result = await db.collection("logs").find({ insertedId: userId });
       console.log("result ", result);
       res.status(200).json(result.value);
     });

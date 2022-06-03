@@ -1,15 +1,17 @@
-import { logInRoute } from './logInRoute';
-import { logRoute } from "./logRoute";
-import { getLogRoute } from "./getLogRoute";
-import { signUpRoute } from "./signUpRoute";
-import { getTopScores } from './getTopScores';
-import { updateHighscore } from './updateHighscore';
+import { logInRoute } from "./logInRoute.js";
+import { logRoute } from "./logRoute.js";
+import { getLogRoute } from "./getLogRoute.js";
+import { signUpRoute } from "./signUpRoute.js";
+import { getTopScores } from "./getTopScores.js";
+import { updateHighscore } from "./updateHighscore.js";
 
-export const routes = [
-  logRoute,
-  getLogRoute,
-  logInRoute,
-  signUpRoute,
-  getTopScores,
-  updateHighscore,
-];
+export const routes = () => {
+  return [
+    logRoute,
+    getLogRoute,
+    logInRoute,
+    signUpRoute,
+    getTopScores,
+    updateHighscore,
+  ];
+};

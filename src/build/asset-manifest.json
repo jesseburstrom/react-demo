@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.3c7391a7.css",
-    "main.js": "/static/js/main.f1298c6d.js",
+    "main.js": "/static/js/main.5413d7b6.js",
     "static/media/jesse3.jpg": "/static/media/jesse3.e4c3770961f2680fa9c2.jpg",
     "static/media/services-bg.jpg": "/static/media/services-bg.f1ca14a06879defdb540.jpg",
     "static/media/CV-JesseBurström-Swe.pdf": "/static/media/CV-JesseBurström-Swe.daf177845914434d2ddf.pdf",
@@ -9,10 +9,10 @@
     "static/media/jesse1.jpg": "/static/media/jesse1.f8ce96f23f7513a5ba80.jpg",
     "index.html": "/index.html",
     "main.3c7391a7.css.map": "/static/css/main.3c7391a7.css.map",
-    "main.f1298c6d.js.map": "/static/js/main.f1298c6d.js.map"
+    "main.5413d7b6.js.map": "/static/js/main.5413d7b6.js.map"
   },
   "entrypoints": [
     "static/css/main.3c7391a7.css",
-    "static/js/main.f1298c6d.js"
+    "static/js/main.5413d7b6.js"
   ]
 }

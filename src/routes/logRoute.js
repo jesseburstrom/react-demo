@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { getDbConnection } from "../db";
+import { getDbConnection } from "../db.js";
 
 export const logRoute = {
   path: "/api/log/:userId",
@@ -7,7 +7,7 @@ export const logRoute = {
   handler: async (req, res) => {
     const { authorization } = req.headers;
     const { userId } = req.params;
-    const  activity  = req.body;
+    const activity = req.body;
 
     console.log("in logRoute", activity, userId);
     if (!authorization) {
@@ -24,7 +24,7 @@ export const logRoute = {
       console.log("token verified");
       const { id } = decoded;
 
-      if (id !== userId){
+      if (id !== userId) {
         console.log("id mismatch");
         return res
           .status(403)
@@ -38,7 +38,7 @@ export const logRoute = {
         .findOneAndUpdate(
           { insertedId: userId },
           { $push: { log: activity } },
-          { upsert:true, returnOriginal: false }
+          { upsert: true, returnOriginal: false }
         );
       console.log("result ", result);
       res.status(200).json(result.value);
