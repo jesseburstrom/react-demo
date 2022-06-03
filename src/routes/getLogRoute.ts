@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import { getDbConnection } from "../db.js";
+import * as jwt from "jsonwebtoken";
+import { getDbConnection } from "../db";
 
 export const getLogRoute = {
   path: "/api/getLog/:userId",

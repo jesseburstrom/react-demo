@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { getDbConnection } from "../db.js";
+import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+import { getDbConnection } from "../db";
 
 export const logInRoute = {
   path: "/api/login",
@@ -25,9 +25,9 @@ export const logInRoute = {
         (err, token) => {
           if (err) {
             res.status(500).json(err);
+          } else {
+            res.status(200).json({ token });
           }
-
-          res.status(200).json({ token });
         }
       );
     } else {

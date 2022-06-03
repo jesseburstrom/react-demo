@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { getDbConnection } from "../db.js";
+import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+import { getDbConnection } from "../db";
 
 export const signUpRoute = {
   path: "/api/signup",
@@ -10,9 +10,9 @@ export const signUpRoute = {
 
     const db = getDbConnection("react-auth-db");
     const user = await db.collection("users").findOne({ email });
-
+    console.log(user);
     if (user) {
-      res.sendStatus(409);
+      return res.sendStatus(409);
     }
 
     const passwordHash = await bcrypt.hash(password, 10);

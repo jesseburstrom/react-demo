@@ -1,14 +1,14 @@
 import express from "express";
-import { routes } from "./routes/index.js";
-import { initializeDbConnection, getDbConnection } from "./db.js";
-import path from "path";
+import { routes } from "./routes/index";
+import { initializeDbConnection, getDbConnection } from "./db";
+import * as path from "path";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import WebSocket from "ws";
 import { Server } from "socket.io";
 import { createServer } from "http";
 
-const PORT = process.env.PORT || 8000;
+const PORT: number = 8000;
 
 const app = express();
 
@@ -16,10 +16,11 @@ app.use(cors());
 
 const httpServer = createServer(app);
 
-const isOnline = true;
+let isOnline: boolean = true;
+//isOnline = false;
 
-const localFlutterDir = "C:/Users/J/StudioProjects/flutter_system";
-const localReactDir = "C:/Users/J/Desktop/proj";
+const localFlutterDir: string = "C:/Users/J/StudioProjects/flutter_system";
+const localReactDir: string = "C:/Users/J/Desktop/proj";
 
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build")));
@@ -40,7 +41,6 @@ routes().forEach((route) => {
   app[route.method](route.path, route.handler);
 });
 ////////////////////////////////// YATZY //////////////////////////////////
-//const server = http.createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
@@ -54,7 +54,11 @@ const wss = new WebSocket.Server({ port: 8001 }, () => {
   console.log("server started");
 });
 
-var CLIENTS = [];
+interface ClientsUnity {
+  ws: any;
+  unityId: string;
+}
+var CLIENTS: ClientsUnity[] = [];
 
 wss.on("connection", (ws, req) => {
   console.log("Client connected Websocket");
@@ -75,9 +79,9 @@ wss.on("connection", (ws, req) => {
   });
 });
 
-var games = [];
-var gameId = 0;
-var clients = [];
+var games: any[] = [];
+var gameId: number = 0;
+var clients: any[] = [];
 
 io.on("connect", (socket) => {
   console.log("client connect...", socket.id);
@@ -110,7 +114,7 @@ io.on("connect", (socket) => {
         idReact: socket.id,
         idFlutter: "",
         idUnity: -1,
-        ip: socket.conn.remoteaddress,
+        ip: socket.conn.remoteAddress,
         settings: data,
         serverId: "",
       });
@@ -159,7 +163,7 @@ io.on("connect", (socket) => {
         // At this pairing we send each client an uuid to identify after disconnect/reconnect events.
         var serverId = uuidv4();
         if (isOnline) {
-          var isSet = false;
+          var isSet: boolean = false;
           clients = clients.map((client) => {
             if (
               client.ip === socket.handshake.headers["x-real-ip"] &&
@@ -191,7 +195,7 @@ io.on("connect", (socket) => {
             });
           }
         } else {
-          var isSet = false;
+          var isSet: boolean = false;
           clients = clients.map((client) => {
             if (client.idFlutter === "" && !isSet) {
               data["settings"] = client.settings;
@@ -207,7 +211,7 @@ io.on("connect", (socket) => {
               idReact: "",
               idFlutter: socket.id,
               idUnity: -1,
-              ip: socket.conn.remoteaddress,
+              ip: socket.conn.remoteAddress,
               settings: [],
             });
           }
@@ -324,10 +328,10 @@ io.on("connect", (socket) => {
     }
   });
 
-  function removePlayer(exclude = -1) {
+  function removePlayer(exclude: number = -1): void {
     // remove player from ongoing games loop backwards not to break indexing
     // if only one player or game started issue game abort
-    var j = games.length;
+    var j: number = games.length;
     while (j--) {
       if (j !== exclude && games[j]["playerIds"].indexOf(socket.id) !== -1) {
         console.log("loop:" + j.toString());
@@ -385,6 +389,6 @@ app.get("*", (req, res) => {
 
 initializeDbConnection().then(() => {
   httpServer.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+    console.log(`Server is Listening on port ${PORT}`);
   });
 });

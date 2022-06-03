@@ -1,19 +1,20 @@
 //import jwt from "jsonwebtoken";
-import { getDbConnection } from "../db.js";
+import { getDbConnection } from "../db";
 
-export const getTopScores = {
-  path: "/GetTopScores",
-  method: "get",
+export const updateHighscore = {
+  path: "/UpdateHighscore",
+  method: "post",
   handler: async (req, res) => {
-    //console.log(req.query.count);
-
     const db = getDbConnection("top-scores");
 
-    var results;
+    var results = [];
     try {
-      switch (req.query.type) {
+      switch (req.body.type) {
         case "Ordinary": {
           console.log("getting ordinary game topscores");
+          await db
+            .collection("ordinary")
+            .insertOne({ name: req.body.name, score: req.body.score });
           results = await db
             .collection("ordinary")
             .find({}, { _id: 0 })
@@ -23,6 +24,9 @@ export const getTopScores = {
         }
 
         case "Mini": {
+          await db
+            .collection("mini")
+            .insertOne({ name: req.body.name, score: req.body.score });
           results = await db
             .collection("mini")
             .find({}, { _id: 0 })
@@ -32,6 +36,9 @@ export const getTopScores = {
         }
 
         case "Maxi": {
+          await db
+            .collection("maxi")
+            .insertOne({ name: req.body.name, score: req.body.score });
           results = await db
             .collection("maxi")
             .find({}, { _id: 0 })
@@ -40,8 +47,6 @@ export const getTopScores = {
           break;
         }
       }
-
-      //console.log("result ", results);
       res.status(200).json(results);
     } catch (e) {
       console.log(e);
