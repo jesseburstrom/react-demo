@@ -35,11 +35,12 @@ const cors_1 = __importDefault(require("cors"));
 const ws_1 = __importDefault(require("ws"));
 const socket_io_1 = require("socket.io");
 const http_1 = require("http");
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const httpServer = (0, http_1.createServer)(app);
-const isOnline = false;
+let isOnline = true;
+//isOnline = false;
 const localFlutterDir = "C:/Users/J/StudioProjects/flutter_system";
 const localReactDir = "C:/Users/J/Desktop/proj";
 if (isOnline) {
@@ -60,7 +61,6 @@ app.use(express_1.default.json());
     app[route.method](route.path, route.handler);
 });
 ////////////////////////////////// YATZY //////////////////////////////////
-//const server = http.createServer(app);
 const io = new socket_io_1.Server(httpServer, {
     cors: {
         origin: "*",
@@ -81,12 +81,6 @@ wss.on("connection", (ws, req) => {
     ws.send(JSON.stringify({ actionUnity: "unityIdentifier", unityId: unityId }));
     ws.on("message", (data) => {
         console.log("data recieved " + data);
-        CLIENTS.map((client) => {
-            if (client === ws) {
-                console.log("FOUND CLIENT!!!");
-            }
-            return client;
-        });
     });
 });
 var games = [];
@@ -380,6 +374,6 @@ app.get("*", (req, res) => {
 });
 (0, db_1.initializeDbConnection)().then(() => {
     httpServer.listen(PORT, () => {
-        console.log(`Server is listening on port ${PORT}`);
+        console.log(`Server is Listening on port ${PORT}`);
     });
 });

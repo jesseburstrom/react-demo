@@ -1,6 +1,6 @@
 import express from "express";
 import { routes } from "./routes/index";
-import { initializeDbConnection, getDbConnection } from "./db";
+import { initializeDbConnection } from "./db";
 import * as path from "path";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
@@ -12,12 +12,18 @@ const PORT: number = 8000;
 
 const app = express();
 
+// Important client has local ip (like 192.168.0.168) not 127.0.0.1 or localhost in browser to work on local developement across different computers
+// Local client connect should look like : http://192.168.0.168:8080 , or your local network ip instead of 192.168.0.168
+// Also with port number this should not be there ssl online since all is taken care of with nginx or similar routing port 80 to prefeerably 8080
+// for Https, socket.io and WebSocket. Requirement of Google Platform app engine flex only one port and is possible! but also convinient!
 app.use(cors());
 
 const httpServer = createServer(app);
 
+// All 4 systems NodeJS, Flutter, Unity and React has this flag to differ from local developement and online publish
+// One improvement could be global system flag all systems look at so avoid funny errors missing to reset flag... :)
+// Got idea from meetup to signal in running code visually if offline/online good idea!
 let isOnline: boolean = true;
-//isOnline = false;
 
 const localFlutterDir: string = "C:/Users/J/StudioProjects/flutter_system";
 const localReactDir: string = "C:/Users/J/Desktop/proj";
@@ -50,6 +56,8 @@ const io = new Server(httpServer, {
   transports: ["websocket"],
 });
 
+//const wss = new WebSocket.Server({ noServer: false });
+
 const wss = new WebSocket.Server({ port: 8001 }, () => {
   console.log("server started");
 });
@@ -70,12 +78,6 @@ wss.on("connection", (ws, req) => {
 
   ws.on("message", (data) => {
     console.log("data recieved " + data);
-    CLIENTS.map((client) => {
-      if (client === ws) {
-        console.log("FOUND CLIENT!!!");
-      }
-      return client;
-    });
   });
 });
 
@@ -133,9 +135,7 @@ io.on("connect", (socket) => {
               "Found client send to unity: " +
                 data["actionUnity"] +
                 " " +
-                client.unityId +
-                " " +
-                data["location"]
+                client.unityId
             );
 
             client.ws.send(JSON.stringify(data));
@@ -334,8 +334,6 @@ io.on("connect", (socket) => {
     var j: number = games.length;
     while (j--) {
       if (j !== exclude && games[j]["playerIds"].indexOf(socket.id) !== -1) {
-        console.log("loop:" + j.toString());
-
         games[j]["connected"]--;
         if (games[j]["connected"] === 0) {
           games.splice(j, 1);
@@ -390,5 +388,6 @@ app.get("*", (req, res) => {
 initializeDbConnection().then(() => {
   httpServer.listen(PORT, () => {
     console.log(`Server is Listening on port ${PORT}`);
+    isOnline ? console.log("IS ONLINE") : console.log("OFFLINE");
   });
 });
