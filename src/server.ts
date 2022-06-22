@@ -56,8 +56,9 @@ const io = new Server(httpServer, {
   transports: ["websocket"],
 });
 
-//const wss = new WebSocket.Server({ noServer: false });
-
+// Websocket server (ws) cannot work over lan unless https fix for lack of CORS
+// Why I choose to script development and work strictly 'online' on diffeent developement page with full https
+// Only way to debug and test on mobile seems without hazzle but also if debug environment same as publish also good!
 const wss = new WebSocket.Server({ port: 8001 }, () => {
   console.log("server started");
 });
