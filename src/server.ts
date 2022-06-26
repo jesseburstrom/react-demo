@@ -23,7 +23,7 @@ const httpServer = createServer(app);
 // All 4 systems NodeJS, Flutter, Unity and React has this flag to differ from local developement and online publish
 // One improvement could be global system flag all systems look at so avoid funny errors missing to reset flag... :)
 // Got idea from meetup to signal in running code visually if offline/online good idea!
-let isOnline: boolean = true;
+let isOnline: boolean = false;
 
 const localFlutterDir: string = "C:/Users/J/StudioProjects/flutter_system";
 const localReactDir: string = "C:/Users/J/Desktop/proj";
@@ -57,7 +57,7 @@ const io = new Server(httpServer, {
 });
 
 // Websocket server (ws) cannot work over lan unless https fix for lack of CORS
-// Why I choose to script development and work strictly 'online' on diffeent developement page with full https
+// Why I choose to script development and work strictly 'online' on a diffeent developement page with full https
 // Only way to debug and test on mobile seems without hazzle but also if debug environment same as publish also good!
 const wss = new WebSocket.Server({ port: 8001 }, () => {
   console.log("server started");

@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/static/css/main.3c7391a7.css",
-    "main.js": "/static/js/main.5413d7b6.js",
+    "main.js": "/static/js/main.068f7575.js",
     "static/media/jesse3.jpg": "/static/media/jesse3.e4c3770961f2680fa9c2.jpg",
     "static/media/services-bg.jpg": "/static/media/services-bg.f1ca14a06879defdb540.jpg",
-    "static/media/CV-JesseBurström-Swe.pdf": "/static/media/CV-JesseBurström-Swe.daf177845914434d2ddf.pdf",
-    "static/media/CV-JesseBurström-Eng.pdf": "/static/media/CV-JesseBurström-Eng.01acaf9832a0342f74ed.pdf",
+    "static/media/CV-JesseBurström-Swe.pdf": "/static/media/CV-JesseBurström-Swe.f89cae328c046706cbf0.pdf",
+    "static/media/CV-JesseBurström-Eng.pdf": "/static/media/CV-JesseBurström-Eng.b541025f8829620eb048.pdf",
     "static/media/jesse1.jpg": "/static/media/jesse1.f8ce96f23f7513a5ba80.jpg",
     "index.html": "/index.html",
     "main.3c7391a7.css.map": "/static/css/main.3c7391a7.css.map",
-    "main.5413d7b6.js.map": "/static/js/main.5413d7b6.js.map"
+    "main.068f7575.js.map": "/static/js/main.068f7575.js.map"
   },
   "entrypoints": [
     "static/css/main.3c7391a7.css",
-    "static/js/main.5413d7b6.js"
+    "static/js/main.068f7575.js"
   ]
 }
