@@ -6,10 +6,20 @@
     <title>Unity WebGL Player | Dice Yatzy</title>
   </head>
   <body style="text-align: center">
-    <canvas id="unity-canvas" width=960 height=600 style="width: 960px; height: 600px; background: #231F20"></canvas>
+
     <script src="Build/UnityLibrary.loader.js"></script>
     
     <script>
+        var width = (window.innerWidth-75);
+        var height = (window.innerHeight-75);
+        var canvas = document.createElement('canvas');
+        canvas.id     = "unity-canvas";
+        canvas.width  = width;
+        canvas.height = height;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        canvas.style.background = "transparent";
+        document.body.appendChild(canvas);
         var mainUnityInstance;
 
         window['handleUnityMessage'] = function (params) {
