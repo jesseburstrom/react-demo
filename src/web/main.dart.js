@@ -20964,7 +20964,7 @@ for(s=a.a,r=0,q=0;p=a.cw,q<p.length;++q)if(!J.a2(p[q],"gameStarted")){o=J.a2(a.c
 n=J.h4(J.h4(J.h4(J.h4(J.h4(J.h4(J.e(o,"Ordinary")?a.X(s):o," "),J.c8(J.a2(a.cw[q],"connected"))),"/"),J.c8(J.a2(a.cw[q],"nrPlayers")))," "),J.c8(J.a2(a.cw[q],"userNames")))
 if(J.aqc(J.a2(a.cw[q],"playerIds"),$.e3().b)===-1)l.push(a.xh(new A.acH(a,b,q),n))
 else l.push(new A.hz(n,m,B.Mf,m,B.b6,m,m,m,m,m,m,m,m))}else ++r
-l.push(A.cn(a.X(a.cy)+" : "+B.f.j(r),m,m,m,m,m,m,m,B.LH,B.b6,m,m))
+l.push(A.cn(a.X(a.cy)+" : "+r,m,m,m,m,m,m,m,B.LH,B.b6,m,m))
 return l},
 acz(a,b){var s=0,r=A.T(t.z),q,p,o
 var $async$acz=A.U(function(c,d){if(c===1)return A.Q(d,r)
