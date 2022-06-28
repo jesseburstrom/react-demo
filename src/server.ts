@@ -154,8 +154,8 @@ io.on("connect", (socket) => {
             console.log(presentation);
             return {
               ...presentation,
-              playerIds: [presentation.playerIds, socket.id],
-              userNames: [presentation.userNames, data.userName],
+              playerIds: presentation.playerIds.push(socket.id),
+              userNames: presentation.userNames.push(data.userName),
               connected: presentation.connected++,
             };
           } else {
