@@ -132,19 +132,16 @@ io.on("connect", (socket) => {
   socket.on("sendToServer", (data) => {
     switch (data["action"]) {
       case "startPresentation": {
-        if (data["nrPlayers"] === 1) {
-          // Sologame send start and save game
-          data["action"] = "onPresentationStart";
-          data["presentationId"] = presentationId++;
+        data["action"] = "onPresentationStart";
+        data["presentationId"] = presentationId++;
 
-          presentations.push(data);
-          io.to(socket.id).emit("onServerMsg", data);
-          io.emit("onServerMsg", {
-            action: "onRequestPresentation",
-            Presentations: presentations,
-          });
-          return;
-        }
+        presentations.push(data);
+        io.to(socket.id).emit("onServerMsg", data);
+        io.emit("onServerMsg", {
+          action: "onRequestPresentation",
+          Presentations: presentations,
+        });
+        return;
 
         break;
       }
