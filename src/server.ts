@@ -264,6 +264,8 @@ io.on("connect", (socket) => {
         if (games.length > 0) {
           console.log("sending init games data");
           io.emit("onServerMsg", { action: "onRequestGames", Games: games });
+        }
+        if (presentations.length > 0) {
           io.emit("onServerMsg", {
             action: "onRequestPresentation",
             Presentations: presentations,
