@@ -150,6 +150,8 @@ io.on("connect", (socket) => {
         console.log("Try Join Presentation: ");
         presentations.map((presentation) => {
           if (presentation.presentationId === data["presentationId"]) {
+            console.log("Found presentation");
+            console.log(presentation);
             return {
               ...presentation,
               playerIds: [presentation.playerIds, socket.id],
