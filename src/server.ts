@@ -86,6 +86,9 @@ var games: any[] = [];
 var gameId: number = 0;
 var clients: any[] = [];
 
+var presentations: any[] = [];
+var presentationId: number = 0;
+
 io.on("connect", (socket) => {
   console.log("client connect...", socket.id);
 
@@ -128,6 +131,45 @@ io.on("connect", (socket) => {
 
   socket.on("sendToServer", (data) => {
     switch (data["action"]) {
+      case "startPresentation": {
+        if (data["nrPlayers"] === 1) {
+          // Sologame send start and save game
+          data["action"] = "onPresentationStart";
+          data["presentationId"] = presentationId++;
+
+          presentations.push(data);
+          io.to(socket.id).emit("onServerMsg", data);
+          io.emit("onServerMsg", {
+            action: "onRequestPresentation",
+            Presentations: presentations,
+          });
+          return;
+        }
+
+        break;
+      }
+
+      case "requestJoinPresentation": {
+        console.log("Try Join Presentation: ");
+        presentations.map((presentation) => {
+          if (presentation.presentationId === data["presentationId"]) {
+            return {
+              ...presentation,
+              playerIds: [presentation.playerIds, socket.id],
+              userNames: [presentation.userNames, data.userName],
+              connected: presentation.connected++,
+            };
+          } else {
+            return presentation;
+          }
+        });
+        io.emit("onServerMsg", {
+          action: "onRequestPresentation",
+          Presentations: presentations,
+        });
+        break;
+      }
+
       case "flutterToUnity": {
         // Get Unity ws 'client' and pass on data
         CLIENTS.map((client) => {
@@ -146,6 +188,7 @@ io.on("connect", (socket) => {
 
         break;
       }
+
       case "saveSettings": {
         clients = clients.map((client) => {
           if (client.idFlutter === socket.id) {
