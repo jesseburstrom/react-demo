@@ -20742,10 +20742,10 @@ r=new A.cY()
 r.e0(h,c*0.2,b*0.35,0)
 s[0]=r
 q=new A.cY()
-q.e0(b,c*0.55,0,r.b)
+q.e0(b,c*0.45,0,r.b)
 s[1]=q
 p=new A.cY()
-p.e0(b,c*0.25,0,r.b+q.b)
+p.e0(b,c*0.35,0,r.b+q.b)
 s[2]=p
 p=c*0.16
 q=c*0.04
