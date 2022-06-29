@@ -3,7 +3,7 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/AssetManifest.json": "61ee851c2e76c3ae731b8e17163439d4",
+  "assets/AssetManifest.json": "b7097a79ed0de87b3e8691d17c2a3288",
 "assets/assets/audio/blipp.mp3": "e16e087215b6c28ac705245108cb5f39",
 "assets/assets/audio/harp.mp3": "8dca853cd507864bf21eda05d3ef36ce",
 "assets/assets/audio/kliiing.mp3": "9fb403f6d2fe7cd6fb2c8f6f35d838d3",
@@ -33,7 +33,10 @@ const RESOURCES = {
 "assets/assets/images/img2.jpg": "a57f6ab554d9fcdaa7e108be7b960bf3",
 "assets/assets/images/img3.jpg": "574baa69808effa5022f1dcc6561cf40",
 "assets/assets/images/neutral.jpg": "0b84fd5f50415582766ac700f346f5a9",
+"assets/assets/images/Prevas.png": "332dee3ac1d956e13891b506838f80c2",
+"assets/assets/images/prevas_logo_2019.jpg": "6de69dfd21cc921c7949bcfcbe3cc7fb",
 "assets/assets/images/roll.jpg": "20cb0a676bbb89954bfcf88c7b333d8f",
+"assets/assets/images/terass.jpg": "f4a4860cd0b558a36b6888da16b219fc",
 "assets/assets/images/yatzy_landscape.jpg": "66a22ddaaf89276410edbff567eb456f",
 "assets/assets/images/yatzy_landscape2.jpg": "ec1590b5d6fe6dff4c91c4081615ffdd",
 "assets/assets/images/yatzy_portrait.jpg": "abae29668ba79493fe6782ff9cd016ae",
@@ -51,9 +54,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "e3b7a132b6425f86a104c22f884efdf6",
+"index.html": "c4ec7972c63b9b651b391168e7003a95",
 "/": "638f767633094d26133d10a8957960d9",
-"main.dart.js": "0a65d69189243a5bd5dd7b2ce2e0a668",
+"main.dart.js": "5325baf640733617ec3edbdd0ffb5415",
 "manifest.json": "3c9c0a4c1427016b6e684093bc2b47f7",
 "UnityLibrary/Build/UnityLibrary.data": "8fbf09866475bdef58c507e8ef128317",
 "UnityLibrary/Build/UnityLibrary.framework.js": "ba1b0dc1f116a39b33991320bc86ebc5",
