@@ -136,7 +136,7 @@ io.on("connect", (socket) => {
         data["presentationId"] = presentationId++;
 
         //presentations.push(data);
-        presentations = data;
+        presentations = [data];
         io.to(socket.id).emit("onServerMsg", data);
         io.emit("onServerMsg", {
           action: "onRequestPresentation",
