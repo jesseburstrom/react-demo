@@ -179,6 +179,10 @@ io.on("connect", (socket) => {
             return presentation;
           }
         });
+        io.emit("onServerMsg", {
+          action: "onRequestPresentation",
+          Presentations: presentations,
+        });
         break;
       }
 
