@@ -20706,7 +20706,7 @@ b=A.ea(q.h(b,"Presentations"),!0,t.z)
 A.bx("DATA "+A.d(b))
 a.d1=b
 a.cm=J.a1(b[0],"playerIds")
-$.UP().b=J.a1(b[0],"currentSlide")
+$.UP().b=J.a1(b[0],"slideIndex")
 $.b8().nc()
 $.b8().nd()
 s=3
