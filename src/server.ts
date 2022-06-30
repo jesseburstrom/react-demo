@@ -169,6 +169,8 @@ io.on("connect", (socket) => {
       }
 
       case "updatePresentation": {
+        console.log("updatePresentation");
+        console.log(presentations);
         presentations.map((presentation) => {
           if (presentation.presentationId === data["presentationId"]) {
             return {
