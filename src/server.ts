@@ -170,7 +170,7 @@ io.on("connect", (socket) => {
 
       case "updatePresentation": {
         console.log("updatePresentation");
-        console.log(presentations);
+        console.log(data);
         presentations.map((presentation) => {
           if (presentation.presentationId === data["presentationId"]) {
             return {
