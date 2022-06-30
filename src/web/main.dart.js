@@ -20664,7 +20664,7 @@ a.B=q.h(p,"boardAnimation")
 $.Is=q.h(p,"language")
 A.a(a.H,"gameDices").k4=q.h(p,"unityDices")
 A.a(a.H,"gameDices").p1=q.h(p,"unityLightMotion")
-$.b8().nd()}A.bC("onGetId")
+$.b8().pO()}A.bC("onGetId")
 s=3
 break
 case 6:A.bC("onGameStart")
@@ -20698,7 +20698,7 @@ break
 case 7:A.bC("onRequestGames")
 a.cz=A.ea(q.h(b,"Games"),!0,t.z)
 A.aE4(a)
-$.b8().nd()
+$.b8().pO()
 s=3
 break
 case 8:A.bC("onRequestPresentation")
@@ -20747,7 +20747,7 @@ aE8(a){return new A.XC(a)},
 XE(a,b){var s=0,r=A.S(t.z),q,p
 var $async$XE=A.T(function(c,d){if(c===1)return A.P(d,r)
 while(true)switch(s){case 0:$.UO().r.push(new A.nA(b,"receiver"))
-$.b8().pO()
+$.b8().nd()
 s=2
 return A.X(A.r4(B.a8,new A.XF(),t.P),$async$XE)
 case 2:q=$.UO().d
@@ -21019,7 +21019,7 @@ p.l(0,"connected",0)
 p.l(0,"gameStarted",!1)
 p.l(0,"action","requestGame")
 $.cE().ig(p)
-$.b8().nd()
+$.b8().pO()
 p=A.v(q,o)
 p.l(0,"action","saveSettings")
 p.l(0,"userName",$.hR)
@@ -21066,7 +21066,7 @@ p.l(0,"userName",$.hR)
 p.l(0,"connected",0)
 p.l(0,"action","startPresentation")
 $.cE().ig(p)
-$.b8().nd()
+$.b8().pO()
 q=A.jb(new A.acQ(),null,q)
 s=4
 return A.X(A.ii(b).j_(0,q),$async$acP)
@@ -71299,7 +71299,7 @@ $0(){},
 $S:3}
 A.XC.prototype={
 $1(a){var s,r=this.a
-$.b8().pO()
+$.b8().nd()
 s=A.v(t.N,t.z)
 s.l(0,"chatMessage",$.hR+": "+a)
 s.l(0,"action","chatMessagePresentation")
@@ -71336,7 +71336,7 @@ break
 case"chatMessagePresentation":A.XE(n,s.h(a,o))
 break
 case"updateSlide":$.apJ().b=s.h(a,"slideIndex")
-$.b8().pO()
+$.b8().nd()
 break}return null},
 $S:12}
 A.a2Q.prototype={}
@@ -71470,7 +71470,7 @@ $1(a){return B.tX},
 $S:150}
 A.acK.prototype={
 $1(a){$.hR=this.a.eX.a.a
-$.b8().nd()
+$.b8().pO()
 return null},
 $S:12}
 A.acR.prototype={
@@ -72191,9 +72191,9 @@ this.d=new A.a4M()},
 ga8Z(){return A.a(this.a,"_state")},
 ga9_(){return A.a(this.b,"_stateMain")},
 ga90(){return A.a(this.d,"_statePresentation")},
-nd(){return this.ga8Z().$0()},
+pO(){return this.ga8Z().$0()},
 eQ(){return this.ga9_().$0()},
-pO(){return this.ga90().$0()}}
+nd(){return this.ga90().$0()}}
 A.a4K.prototype={
 $0(){var s=t.z
 return A.v(s,s)},
@@ -72248,7 +72248,7 @@ else return A.A6(e,e,A.c6(B.I,A.b([A.i8("assets/images/yatzy_landscape2.jpg",B.c
 A.a5C.prototype={
 $0(){var s,r=this.a,q=r.b
 if(q>0){r.b=q-1
-$.b8().pO()
+$.b8().nd()
 s=A.v(t.N,t.z)
 s.l(0,"slideIndex",r.b)
 s.l(0,"action","updateSlide")
@@ -72258,7 +72258,7 @@ $S:0}
 A.a5D.prototype={
 $0(){var s,r=this.a,q=r.b
 if(q<2){r.b=q+1
-$.b8().pO()
+$.b8().nd()
 s=A.v(t.N,t.z)
 s.l(0,"slideIndex",r.b)
 s.l(0,"action","updateSlide")
