@@ -72207,7 +72207,7 @@ return A.v(s,s)},
 $S:29}
 A.K5.prototype={
 aiv(a,b){var s,r,q,p,o,n=null,m=t.p,l=A.b([],m)
-A.bH(A.d($.cE())+".socketConnectionId "+A.d($.h6().cg))
+A.bH($.cE().b+" "+A.d($.h6().cg))
 if($.cE().b===J.a1($.h6().cg,0)){s=a*0.5
 r=a*0.25
 q=A.wp(B.b0,1)
