@@ -151,8 +151,6 @@ io.on("connect", (socket) => {
         console.log("Try Join Presentation: ");
         presentations.map((presentation) => {
           if (presentation.presentationId === data["presentationId"]) {
-            console.log("Found presentation");
-            console.log(presentation);
             return {
               ...presentation,
               playerIds: presentation.playerIds.push(socket.id),
@@ -166,6 +164,20 @@ io.on("connect", (socket) => {
         io.emit("onServerMsg", {
           action: "onRequestPresentation",
           Presentations: presentations,
+        });
+        break;
+      }
+
+      case "updatePresentation": {
+        presentations.map((presentation) => {
+          if (presentation.presentationId === data["presentationId"]) {
+            return {
+              ...presentation,
+              slideIndex: data["slideIndex"],
+            };
+          } else {
+            return presentation;
+          }
         });
         break;
       }
