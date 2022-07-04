@@ -149,7 +149,7 @@ io.on("connect", (socket) => {
 
       case "requestJoinPresentation": {
         console.log("Try Join Presentation: ");
-        presentations.map((presentation) => {
+        presentations = presentations.map((presentation) => {
           if (presentation.presentationId === data["presentationId"]) {
             return {
               ...presentation,
