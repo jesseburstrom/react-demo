@@ -20936,7 +20936,7 @@ l=($.ej.au()-o)/2
 m=0}a2.d=o
 a2.c=n
 a2.b=m
-a2.a=l}k=new A.acI(a2,0.1,a4)
+a2.a=l}k=new A.acI(a2,0.08,a4)
 a3.eX=!0
 for(j=0;j<a3.Z;++j)if(a3.c_[j])if(B.c.t(a3.b7[j],!1)){a3.eX=!1
 break}s=t.p
@@ -71870,8 +71870,8 @@ r=A.b([0,q.a_(0,r.gn(r))],t.u)
 return A.bW(o,A.bI(o,A.Lf(A.asB(o,new A.a0V(n,m,s),J.bl(s.b),B.mN,!1),o,o),o,o,new A.cP(o,o,l,k,o,new A.oh(B.lH,B.f7,B.cR,j,r,o),B.X),p.e,o,o,m),o,o,p.a,o,p.b+n,o)},
 $S:32}
 A.a0V.prototype={
-$2(a,b){var s=null,r=this.a,q=A.wr(B.hj,1),p=A.iT(10),o=this.b,n=this.c
-return A.bI(s,A.kJ(A.b([A.bI(s,A.hi(B.D,A.cq("  "+(b+1)+".",s,s,s,s,s,s,s,B.ND,s,s,s),B.aR),s,s,s,r,s,B.aq,o*0.15),A.bI(s,A.hi(B.D,A.cq(J.a1(J.a1(n.b,b),"name"),s,s,s,s,s,s,s,B.Ok,s,s,s),B.aR),s,s,s,r,s,B.fx,o*0.5),A.bI(s,A.hi(B.D,A.cq(A.d(J.a1(J.a1(n.b,b),"score"))+"  ",s,s,s,s,s,s,s,B.w5,s,s,s),B.aR),s,s,s,r,s,B.aq,o*0.25)],t.p),B.ag,B.cE,B.ah),s,s,new A.cP(s,s,q,p,s,s,B.X),r,s,s,s)},
+$2(a,b){var s=null,r=A.wr(B.hj,1),q=A.iT(10),p=this.b,o=this.c
+return A.bI(s,A.kJ(A.b([A.bI(s,A.hi(B.D,A.cq("  "+(b+1)+".",s,s,s,s,s,s,s,B.ND,s,s,s),B.aR),s,s,s,s,s,B.aq,p*0.15),A.bI(s,A.hi(B.D,A.cq(J.a1(J.a1(o.b,b),"name"),s,s,s,s,s,s,s,B.Ok,s,s,s),B.aR),s,s,s,s,s,B.fx,p*0.5),A.bI(s,A.hi(B.D,A.cq(A.d(J.a1(J.a1(o.b,b),"score"))+"  ",s,s,s,s,s,s,s,B.w5,s,s,s),B.aR),s,s,s,s,s,B.aq,p*0.25)],t.p),B.ag,B.cE,B.ah),s,s,new A.cP(s,s,r,q,s,s,B.X),this.a,s,s,s)},
 $S:427}
 A.o7.prototype={
 Ro(a,b,c){var s=null
