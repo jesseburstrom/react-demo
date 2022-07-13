@@ -20965,12 +20965,12 @@ r.push(i.xk(h,g,f,e,d.V(d.as),1,"B",0.5))
 r=A.a($.f6().e,a0).r
 if(!(r!=null&&r.a!=null))A.a($.f6().e,a0).oy(0,!0)}if($.Us&&$.F4&&a3.aX===a3.b1&&A.a(a3.a9,b).CW===3){r=$.vM
 i=$.f6()
-h=a3.bK[a3.b1+1][a3.aF-6]
+h=a3.bK[a3.b1+1][a3.aF-5]
 g=a2.c
 f=a2.d
 e=A.a(i.e,a0)
 d=a3.V(a3.F)
-r.push(i.xk(h,g,f,e,d,1,"R",$.vI>2.5?0.75:1.5))
+r.push(i.xk(h,g,f,e,d,1,"R",$.vI>2.5?1:1.5))
 r=A.a($.f6().e,a0).r
 if(!(r!=null&&r.a!=null))A.a($.f6().e,a0).oy(0,!0)}if($.Us&&$.F4&&a3.eX){r=$.vM
 i=$.f6()
