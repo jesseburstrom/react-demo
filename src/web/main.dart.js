@@ -20762,32 +20762,34 @@ aE5(a){return new A.XA(a)},
 aFB(a,b,c,d,e,f){var s,r,q,p,o,n,m,l,k,j=null,i="gameDices",h=new A.c5()
 h.cM(b,c,0,0)
 s=A.a6(6,h,!1,t.eO)
-if($.vI<=2.5||A.a(a.a9,i).CW===0){h=b*0.3
-r=new A.c5()
-r.cM(h,c*0.2,b*0.35,0)
-s[0]=r
+h=$.vI<=2.5||A.a(a.a9,i).CW===0
+r=c*0.25
+if(h){h=b*0.3
 q=new A.c5()
-q.cM(b,c*0.55,0,r.b)
-s[1]=q
+q.cM(h,c*0.2,b*0.35,0)
+s[0]=q
 p=new A.c5()
-p.cM(b,c*0.25,0,r.b+q.b)
-s[2]=p
-p=c*0.16
-q=c*0.04
-r=new A.c5()
-r.cM(h,p,b*0.675,q)
-s[3]=r
-r=new A.c5()
-r.cM(b,c*0.1,0,-c*0.03)
-s[4]=r
-r=new A.c5()
-r.cM(h,p,b*0.025,q)
-s[5]=r}else{h=new A.c5()
-h.cM(b,c*0.65,0,0)
+p.cM(b,c*0.55,0,q.b)
+s[1]=p
+o=new A.c5()
+o.cM(b,r,0,q.b+p.b)
+s[2]=o
+o=c*0.16
+p=c*0.04
+q=new A.c5()
+q.cM(h,o,b*0.675,p)
+s[3]=q
+q=new A.c5()
+q.cM(b,c*0.1,0,-c*0.03)
+s[4]=q
+q=new A.c5()
+q.cM(h,o,b*0.025,p)
+s[5]=q}else{h=new A.c5()
+h.cM(b,c*0.75,0,0)
 s[1]=h
-r=new A.c5()
-r.cM(b,c*0.35,0,h.b)
-s[2]=r}for(o=0;o<6;++o){h=s[o]
+q=new A.c5()
+q.cM(b,r,0,h.b)
+s[2]=q}for(n=0;n<6;++n){h=s[n]
 h.c+=d
 h.d+=e}h=$.vI<=2.5||A.a(a.a9,i).CW===0
 r=t.p
@@ -20797,8 +20799,8 @@ p=h.d
 p=A.bW(j,f[2].$2(h.a,h.b),j,j,q,j,p,j)
 q=s[0]
 h=q.c
-n=q.d
-n=A.bW(j,f[0].$2(q.a,q.b),j,j,h,j,n,j)
+o=q.d
+o=A.bW(j,f[0].$2(q.a,q.b),j,j,h,j,o,j)
 h=s[1]
 q=h.c
 m=h.d
@@ -20813,14 +20815,14 @@ k=h.d
 k=A.bW(j,f[5].$2(h.a,h.b),j,j,q,j,k,j)
 q=f[4]
 h=s[4]
-return A.b([p,A.c6(B.I,A.b([n,m,l,k,q.$3(h.a,h.b,h)],r),B.A,j,j)],r)}else{h=s[1]
+return A.b([p,A.c6(B.I,A.b([o,m,l,k,q.$3(h.a,h.b,h)],r),B.A,j,j)],r)}else{h=s[1]
 q=h.c
 p=h.d
 p=A.bW(j,f[1].$2(h.a,h.b),j,j,q,j,p,j)
 q=s[2]
 h=q.c
-n=q.d
-return A.b([p,A.bW(j,f[2].$2(q.a,q.b),j,j,h,j,n,j)],r)}},
+o=q.d
+return A.b([p,A.bW(j,f[2].$2(q.a,q.b),j,j,h,j,o,j)],r)}},
 aFA(a,b,c,d,e,f){var s,r,q,p,o,n,m,l,k,j,i=null,h=new A.c5()
 h.cM(b,c,0,0)
 s=A.a6(6,h,!1,t.eO)
