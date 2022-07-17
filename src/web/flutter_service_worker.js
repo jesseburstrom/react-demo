@@ -54,9 +54,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "7476ebbe1e3daf18e7b3af003289ad59",
+"index.html": "ed35c696963fbf813094508a38214d56",
 "/": "79c7b3212dce1b4f11b04d772fa66bb6",
-"main.dart.js": "1403dcbd173c43dc52412873ec8ce6a5",
+"main.dart.js": "7278027309d7388dd5442f707c745047",
 "manifest.json": "3c9c0a4c1427016b6e684093bc2b47f7",
 "UnityLibrary/Build/UnityLibrary.data": "ec14cba97d7dedd37674b930d0d906de",
 "UnityLibrary/Build/UnityLibrary.framework.js": "bcf1838218c6f1a7a536a106ef126902",
@@ -64,7 +64,6 @@ const RESOURCES = {
 "UnityLibrary/Build/UnityLibrary.wasm": "6a5d3986f55f29ccceec0fae063c903e",
 "UnityLibrary/index.html": "79c7b3212dce1b4f11b04d772fa66bb6",
 "UnityLibrary/StreamingAssets/UnityServicesProjectConfiguration.json": "1ffd80829af0214b859fcb806b282ecd",
-"UnityLibrary/TemplateData/style.css": "7f1e0e50db2b6a8c5e8cea29a085c3d6",
 "version.json": "f5b2c9e5cf4369be1dec7d3b1a40f7bc"
 };
 
