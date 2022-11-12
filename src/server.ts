@@ -23,7 +23,7 @@ const httpServer = createServer(app);
 // All 4 systems NodeJS, Flutter, Unity and React has this flag to differ from local developement and online publish
 // One improvement could be global system flag all systems look at so avoid funny errors missing to reset flag... :)
 // Got idea from meetup to signal in running code visually if offline/online good idea!
-let isOnline: boolean = true;
+let isOnline: boolean = false;
 
 const localFlutterDir: string = "C:/Users/J/StudioProjects/flutter_system";
 const localReactDir: string = "C:/Users/J/Desktop/proj";
