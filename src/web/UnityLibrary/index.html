@@ -44,6 +44,7 @@
         window.parent.addEventListener('unityFlutterBiding', function (args) {
             const obj = JSON.parse(args.data);
             console.log("PRINTING MAINUNITYINSTANCE");
+            console.log(obj);
             console.log(mainUnityInstance);
             mainUnityInstance.SendMessage(obj.gameObject, obj.methodName, obj.message);
         });
