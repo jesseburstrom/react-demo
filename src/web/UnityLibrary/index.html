@@ -46,7 +46,7 @@
             console.log("PRINTING MAINUNITYINSTANCE");
             console.log(obj);
             console.log(mainUnityInstance);
-            mainUnityInstance.SendMessage(obj.gameObject, obj.methodName, JSON.stringify(obj.message));
+            mainUnityInstance.SendMessage(obj.gameObject, obj.methodName, obj.message);
         });
 
         window.parent.addEventListener('unityFlutterBidingFnCal', function (args) {
