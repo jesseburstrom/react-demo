@@ -20390,11 +20390,11 @@ r+=J.ah(s.db,q);++q}return r},
 amH(a){return new A.Vs(a)},
 wl(a,b){var s=0,r=A.Q(t.z),q,p,o,n,m,l
 var $async$wl=A.R(function(c,d){if(c===1)return A.N(d,r)
-while(true)switch(s){case 0:m=$.q4()
-l=m.$1$0(t.KD)
-A.c2("onServerMsg")
-q=J.a7(b)
-case 2:switch(q.h(b,"action")){case"setServerId":s=4
+while(true)switch(s){case 0:A.c2("onServerMsg")
+q=$.q4()
+p=q.$1$0(t.KD)
+o=J.a7(b)
+case 2:switch(o.h(b,"action")){case"setServerId":s=4
 break
 case"onGetId":s=5
 break
@@ -20406,37 +20406,37 @@ case"onGameAborted":s=8
 break
 default:s=3
 break}break
-case 4:q.h(b,"serverId")
+case 4:o.h(b,"serverId")
 s=3
 break
 case 5:b=A.xO(b,t.N,t.z)
 $.lp().b=b.h(0,"id")
-p=b.h(0,"settings")
-if(p==null)p=[]
-q=J.a7(p)
-if(J.amt(q.gp(p),0)){$.apI=q.h(p,"userName")
-a.ey=q.h(p,"gameType")
-a.ck=q.h(p,"nrPlayers")
-a.hi=q.h(p,"boardAnimation")
-$.anD=q.h(p,"language")
-o=a.a5
-o===$&&A.b()
-o.k4=q.h(p,"unityDices")
-a.a5.p1=q.h(p,"unityLightMotion")
-J.bR(m.$1$0(t.Y),new A.dN(""))}A.c2("onGetId")
+n=b.h(0,"settings")
+if(n==null)n=[]
+o=J.a7(n)
+if(J.amt(o.gp(n),0)){$.apI=o.h(n,"userName")
+a.ey=o.h(n,"gameType")
+a.ck=o.h(n,"nrPlayers")
+a.hi=o.h(n,"boardAnimation")
+$.anD=o.h(n,"language")
+m=a.a5
+m===$&&A.b()
+m.k4=o.h(n,"unityDices")
+a.a5.p1=o.h(n,"unityLightMotion")
+J.bR(q.$1$0(t.Y),new A.dN(""))}A.c2("onGetId")
 s=3
 break
 case 6:A.c2("onGameStart")
-q=t.z
-b=A.xO(b,t.N,q)
-o=J.azh(b.h(0,"playerIds"),$.lp().b)
-a.b_=o
-A.c2("myPlayerId : "+A.h(o))
+o=t.z
+b=A.xO(b,t.N,o)
+m=J.azh(b.h(0,"playerIds"),$.lp().b)
+a.b_=m
+A.c2("myPlayerId : "+A.h(m))
 a.v=b
 a.O=b.h(0,"gameId")
-o=b.h(0,"playerIds")
-a.aj=o
-a.aX=A.ag(J.b9(o),!0,!1,q)
+m=b.h(0,"playerIds")
+a.aj=m
+a.aX=A.ag(J.b9(m),!0,!1,o)
 a.ey=b.h(0,"gameType")
 a.ck=b.h(0,"nrPlayers")
 a.l7()
@@ -20444,31 +20444,31 @@ $.amb=b.h(0,"userNames")
 a.dD.e=a.ck
 s=$.avw?9:11
 break
-case 9:q=a.a5
-q===$&&A.b()
-if(q.k4){A.po(q)
-q=a.a5
-if(q.k4&&a.b_===a.aO)A.tT(q)}J.bR(m.$1$0(t.Y),new A.dN(""))
+case 9:o=a.a5
+o===$&&A.b()
+if(o.k4){A.po(o)
+o=a.a5
+if(o.k4&&a.b_===a.aO)A.tT(o)}J.bR(q.$1$0(t.Y),new A.dN(""))
 s=12
-return A.W(l.d4(0),$async$wl)
+return A.W(p.d4(0),$async$wl)
 case 12:s=10
 break
 case 11:$.avw=!0
-n=l.HB(B.lm)
-n.wc(new A.XC())
+l=p.HB(B.lm)
+l.wc(new A.XC())
 s=13
-return A.W(n.pc(B.lm,null,t.X),$async$wl)
+return A.W(l.pc(B.lm,null,t.X),$async$wl)
 case 13:case 10:s=3
 break
 case 7:A.c2("onRequestGames")
-a.ky=A.fS(q.h(b,"Games"),!0,t.z)
+a.ky=A.fS(o.h(b,"Games"),!0,t.z)
 A.aAJ(a)
-J.bR(m.$1$0(t.Y),new A.dN(""))
+J.bR(q.$1$0(t.Y),new A.dN(""))
 s=3
 break
 case 8:A.c2("onGameAborted")
 s=14
-return A.W(l.wg(0,B.vz,t.X),$async$wl)
+return A.W(p.wg(0,B.vz,t.X),$async$wl)
 case 14:s=3
 break
 case 3:return A.O(null,r)}})
