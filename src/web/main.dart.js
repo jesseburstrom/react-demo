@@ -21955,7 +21955,8 @@ o===$&&A.b()
 if(o.k4){A.nB(o)
 o=a.a2
 if(o.k4&&a.aR===a.aN)A.q5(o)}o=t.ua
-J.cy(A.jy(b,!1,o),new A.h2(A.Gg(b,o).c))
+q=A.jy(b,!1,o)
+J.cy(q,new A.h2(J.e(A.Gg(b,o).c,"English")?"Swedish":"English"))
 A.arV(b,!1).f.d5(0)
 s=6
 break
@@ -74838,18 +74839,20 @@ if(!r[q][s]&&!J.e(p.fn[q][s],-1))if(J.e(p.bT[p.aN][s],0)){A.wA(p)
 p.bT[p.aN][s]=1}}}},
 $S:442}
 A.Y0.prototype={
-$1(a){var s,r=a.d
-this.a.$2(r.a,r.b)
-r=this.b
+$1(a){var s,r,q=a.d
+this.a.$2(q.a,q.b)
+q=this.b
 s=t.ua
-J.cy(A.jy(r,!1,s),new A.h2(A.Gg(r,s).c))},
+r=A.jy(q,!1,s)
+J.cy(r,new A.h2(J.e(A.Gg(q,s).c,"English")?"Swedish":"English"))},
 $S:15}
 A.Y_.prototype={
-$0(){var s,r
+$0(){var s,r,q
 A.wA(this.a)
 s=this.b
 r=t.ua
-J.cy(A.jy(s,!1,r),new A.h2(A.Gg(s,r).c))},
+q=A.jy(s,!1,r)
+J.cy(q,new A.h2(J.e(A.Gg(s,r).c,"English")?"Swedish":"English"))},
 $S:0}
 A.Y1.prototype={
 $2(a,b){var s,r,q,p,o,n=null,m=this.a,l=this.b,k=l+1,j=this.c,i=m.dV[k][j],h=m.cn,g=J.hp(m.c9[k][j],h.f[k][j])
@@ -74875,7 +74878,8 @@ s.l(0,"action","sendSelection")
 $.fe().yj(s)
 A.aus(q,p,o)}q=r.d
 p=t.ua
-J.cy(A.jy(q,!1,p),new A.h2(A.Gg(q,p).c))},
+o=A.jy(q,!1,p)
+J.cy(o,new A.h2(J.e(A.Gg(q,p).c,"English")?"Swedish":"English"))},
 $S:0}
 A.agC.prototype={
 $1(a){var s,r,q=null,p=this.a,o=p.c,n=p.d,m=o>n?0:n*0.5,l=$.au0(),k=p.b,j=this.b,i=a===n?2:1.1
