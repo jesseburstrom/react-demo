@@ -21995,8 +21995,8 @@ n=A.a([],i)
 n.push(A.cQ(o,m,m,m,m,m,m,m,B.Mc,m,m,m))
 n.push(B.CB)
 return new A.xy(l,A.arN(new A.zu(k,j,B.Es,new A.V(1/0,56+s),m),new A.Bf(r,A.a([p,A.ML(new A.f2(B.CW,A.aru(A.a([q,A.ZM(n,B.fS,B.c7,B.aJ),a.t4(c,new A.agN(a),a.ac(a.db),a.eK),a.ait(new A.agO()," "+a.ac(a.r),$.aGx,new A.agP(b),$.Jv)],i),m,m,!1),m),m,m)],i),m)),m)},
-aEv(a){var s,r,q=null,p=$.aC(),o=A.AA(0),n=A.yc(!0,q,!0,!0,q,q,!1),m=J.a59(15,t.Ri)
-for(s=0;s<15;++s)m[s]=new A.r2("","Sender")
+aEv(a){var s,r,q=null,p=$.aC(),o=A.AA(0),n=A.yc(!0,q,!0,!0,q,q,!1),m=J.a59(5,t.Ri)
+for(s=0;s<5;++s)m[s]=new A.r2("","Sender")
 r=t.N
 r=A.G(["English","Send message..."],r,r)
 n=new A.GA(new A.Bj(B.f5,p),o,n,new A.bp(q,t.B),m,r)
