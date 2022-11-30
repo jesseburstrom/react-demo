@@ -74994,6 +74994,7 @@ while(true)switch(s){case 0:o=q.c
 n=o.a.a
 o.pq(0,B.LT)
 q.r.push(new A.r2(n,"sender"))
+A.bj("chat message sending")
 q.aba(n)
 s=2
 return A.Y(A.yi(B.ab,new A.Zl(),t.P),$async$xg)
