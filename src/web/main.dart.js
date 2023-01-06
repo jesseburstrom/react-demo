@@ -74833,16 +74833,17 @@ $.ed.T().yC(s)
 A.aui(q,p,o)}A.f4(r.d,!1,t.R).fq()},
 $S:0}
 A.ags.prototype={
-$1(a){var s,r,q,p,o=this,n=null,m=o.a,l=m.c,k=m.d,j=l>k?0:k*0.5,i=$.atR(),h=m.b,g=o.b,f=a===k,e=f?2:1.1
+$1(a){var s,r,q,p,o=this,n=null,m=o.a,l=m.c,k=m.d,j=l>k?0:k*0.5,i=m.b,h=o.b,g=a===k,f=g?2:1.1
 m=m.a
 s=a===l
 r=s?2:1.1
-q=a*g
+q=a*h
 p=o.d
-r=A.cO(n,A.c3(A.ii(B.F,A.aqZ(B.b6,B.nh,!1,new A.agt(o.c,p),"Restart"),B.aX),q,q),n,i,h+(1-g*e)*l,n,m+(1-g*2*r)*k-j,n)
-f=f?2:1.1
-e=s?2:1.1
-return A.dx(B.R,A.a([r,A.cO(n,A.c3(A.ii(B.F,A.aqZ(B.b6,B.nh,!1,new A.agu(p),"Settings"),B.aX),q,q),n,i,h+(1-g*f)*l,n,m+(1-g*e)*k-j,n)],t.p),B.O,n,n)},
+r=A.cO(n,A.c3(A.ii(B.F,A.aqZ(B.b6,B.nh,!1,new A.agt(o.c,p),"Restart"),B.aX),q,q),n,n,i+(1-h*f)*l,n,m+(1-h*2*r)*k-j,n)
+f=$.atR()
+g=g?2:1.1
+s=s?2:1.1
+return A.dx(B.R,A.a([r,A.cO(n,A.c3(A.ii(B.F,A.aqZ(B.b6,B.nh,!1,new A.agu(p),"Settings"),B.aX),q,q),n,f,i+(1-h*g)*l,n,m+(1-h*s)*k-j,n)],t.p),B.O,n,n)},
 $S:443}
 A.agt.prototype={
 $0(){var s=0,r=A.P(t.H),q=this,p,o
