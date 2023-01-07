@@ -3,7 +3,7 @@ import { logRoute } from "./logRoute";
 import { getLogRoute } from "./getLogRoute";
 import { signUpRoute } from "./signUpRoute";
 import { getTopScores } from "./getTopScores";
-import { updateHighscore } from "./updateHighscore";
+import { updateTopScore } from "./updateTopScore";
 
 export const routes = () => {
   return [
@@ -12,6 +12,6 @@ export const routes = () => {
     logInRoute,
     signUpRoute,
     getTopScores,
-    updateHighscore,
+    updateTopScore,
   ];
 };
