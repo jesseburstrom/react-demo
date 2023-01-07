@@ -31,12 +31,9 @@ const localReactDir: string = "C:/Users/J/Desktop/proj";
 if (isOnline) {
   app.use(express.static(path.join(__dirname, "/build")));
   app.use(express.static(path.join(__dirname, "/web")));
-  app.use(express.static(path.join(__dirname, "/web/UnityLibrary")));
 } else {
   app.use(express.static(localReactDir + "/build"));
   app.use(express.static(localFlutterDir + "/build/web"));
-  app.use(express.static(localFlutterDir + "/build/web/UnityLibrary"));
-  app.use(express.static(localFlutterDir + "/build/web/UnityLibrary/Build"));
 }
 
 app.use(express.json());
@@ -84,10 +81,6 @@ wss.on("connection", (ws, req) => {
 
 var games: any[] = [];
 var gameId: number = 0;
-var clients: any[] = [];
-
-var presentations: any[] = [];
-var presentationId: number = 0;
 
 io.on("connect", (socket) => {
   console.log("client connect...", socket.id);
