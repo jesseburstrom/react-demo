@@ -1,8 +1,8 @@
 //import jwt from "jsonwebtoken";
 import { getDbConnection } from "../db";
 
-export const updateHighscore = {
-  path: "/UpdateHighscore",
+export const updateTopScore = {
+  path: "/UpdateTopScore" ,
   method: "post",
   handler: async (req, res) => {
     const db = getDbConnection("top-scores");
@@ -11,7 +11,6 @@ export const updateHighscore = {
     try {
       switch (req.body.type) {
         case "Ordinary": {
-          console.log("getting ordinary game topscores");
           await db
             .collection("ordinary")
             .insertOne({ name: req.body.name, score: req.body.score });
