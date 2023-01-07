@@ -100,184 +100,12 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.on("connectReact", (data) => {
-    console.log("connectReact");
-    // Save client and corresponding ip address, set timer to mark activity, after some limit remove to prevent abandoned or hung connections
-    if (isOnline) {
-      console.log("IP: ", socket.handshake.headers["x-real-ip"]);
-      clients.push({
-        timer: Date.now(),
-        idReact: socket.id,
-        idFlutter: "",
-        idUnity: -1,
-        ip: socket.handshake.headers["x-real-ip"],
-        settings: data,
-        serverId: "",
-      });
-    } else {
-      clients.push({
-        timer: Date.now(),
-        idReact: socket.id,
-        idFlutter: "",
-        idUnity: -1,
-        ip: socket.conn.remoteAddress,
-        settings: data,
-        serverId: "",
-      });
-    }
-
-    io.to(socket.id).emit("startFlutter", "");
-  });
-
   socket.on("sendToServer", (data) => {
     switch (data["action"]) {
-      case "startPresentation": {
-        data["action"] = "onPresentationStart";
-        data["presentationId"] = presentationId++;
 
-        //presentations.push(data);
-        presentations = [data];
-        io.to(socket.id).emit("onServerMsg", data);
-        io.emit("onServerMsg", {
-          action: "onRequestPresentation",
-          Presentations: presentations,
-        });
-        return;
-
-        break;
-      }
-
-      case "requestJoinPresentation": {
-        console.log("Try Join Presentation: ");
-        presentations = presentations.map((presentation) => {
-          if (presentation.presentationId === data["presentationId"]) {
-            return {
-              ...presentation,
-              playerIds: presentation.playerIds.push(socket.id),
-              userNames: presentation.userNames.push(data.userName),
-              connected: presentation.connected++,
-            };
-          } else {
-            return presentation;
-          }
-        });
-        io.emit("onServerMsg", {
-          action: "onRequestPresentation",
-          Presentations: presentations,
-        });
-        break;
-      }
-
-      case "updatePresentation": {
-        console.log("updatePresentation");
-        console.log(data);
-        presentations = presentations.map((presentation) => {
-          if (presentation.presentationId === data["presentationId"]) {
-            return {
-              ...presentation,
-              slideIndex: data["slideIndex"],
-            };
-          } else {
-            return presentation;
-          }
-        });
-        io.emit("onServerMsg", {
-          action: "onRequestPresentation",
-          Presentations: presentations,
-        });
-        break;
-      }
-
-      case "flutterToUnity": {
-        // Get Unity ws 'client' and pass on data
-        CLIENTS.map((client) => {
-          if (data["unityId"] === client.unityId) {
-            console.log(
-              "Found client send to unity: " +
-                data["actionUnity"] +
-                " " +
-                client.unityId
-            );
-
-            client.ws.send(JSON.stringify(data));
-          }
-          return client;
-        });
-
-        break;
-      }
-
-      case "saveSettings": {
-        clients = clients.map((client) => {
-          if (client.idFlutter === socket.id) {
-            console.log("saveSettings nodejs");
-            io.to(client.idReact).emit("saveSettings", data);
-          }
-          return client;
-        });
-        break;
-      }
-      // Marks the connection of the Flutter part of the client, if no react create standalone connection
+      // Marks the connection of the Flutter part of the client
       case "getId": {
         console.log("getId");
-        // By checking ip address and using latest React connection to pair Flutter the probability is good it is right connection.
-        // Only if two clients connect at exact same time and the first have longer time starting Flutter could there be a mixup.
-        // At this pairing we send each client an uuid to identify after disconnect/reconnect events.
-        var serverId = uuidv4();
-        if (isOnline) {
-          var isSet: boolean = false;
-          clients = clients.map((client) => {
-            if (
-              client.ip === socket.handshake.headers["x-real-ip"] &&
-              client.idFlutter === "" &&
-              !isSet
-            ) {
-              data["settings"] = client.settings;
-              isSet = true;
-              console.log("flutter paired with react");
-              io.to(client.idReact).emit("setServerId", { serverId: serverId });
-              io.to(socket.id).emit("onServerMsg", {
-                action: "setServerId",
-                serverId: serverId,
-              });
-              return { ...client, idFlutter: socket.id, serverId: serverId };
-            } else {
-              return client;
-            }
-          });
-          // No react match create standalone
-          if (!isSet) {
-            clients.push({
-              timer: Date.now(),
-              idReact: "",
-              idFlutter: socket.id,
-              idUnity: -1,
-              ip: socket.handshake.headers["x-real-ip"],
-              settings: [],
-            });
-          }
-        } else {
-          var isSet: boolean = false;
-          clients = clients.map((client) => {
-            if (client.idFlutter === "" && !isSet) {
-              data["settings"] = client.settings;
-              isSet = true;
-              return { ...client, idFlutter: socket.id };
-            } else {
-              return client;
-            }
-          });
-          if (!isSet) {
-            clients.push({
-              timer: Date.now(),
-              idReact: "",
-              idFlutter: socket.id,
-              idUnity: -1,
-              ip: socket.conn.remoteAddress,
-              settings: [],
-            });
-          }
-        }
 
         data["id"] = socket.id;
         data["action"] = "onGetId";
@@ -285,12 +113,6 @@ io.on("connect", (socket) => {
         if (games.length > 0) {
           console.log("sending init games data");
           io.emit("onServerMsg", { action: "onRequestGames", Games: games });
-        }
-        if (presentations.length > 0) {
-          io.emit("onServerMsg", {
-            action: "onRequestPresentation",
-            Presentations: presentations,
-          });
         }
         break;
       }
@@ -437,13 +259,6 @@ app.get("/flutter", (req, res) => {
   }
 });
 
-app.get("/unity", (req, res) => {
-  if (isOnline) {
-    res.sendFile("/web/UnityLibrary/index.html", { root: __dirname });
-  } else {
-    res.sendFile(localFlutterDir + "/build/web/UnityLibrary/index.html");
-  }
-});
 
 app.get("*", (req, res) => {
   if (isOnline) {
