@@ -39,6 +39,15 @@ export const getTopScores = {
             .toArray();
           break;
         }
+
+        case "MaxiR3": {
+          results = await db
+            .collection("maxiR3")
+            .find({}, { _id: 0 })
+            .sort({ score: -1 })
+            .toArray();
+          break;
+        }
       }
 
       //console.log("result ", results);

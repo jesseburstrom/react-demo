@@ -45,6 +45,18 @@ export const updateTopScore = {
             .toArray();
           break;
         }
+
+        case "MaxiR3": {
+          await db
+            .collection("maxiR3")
+            .insertOne({ name: req.body.name, score: req.body.score });
+          results = await db
+            .collection("maxiR3")
+            .find({}, { _id: 0 })
+            .sort({ score: -1 })
+            .toArray();
+          break;
+        }
       }
       res.status(200).json(results);
     } catch (e) {
