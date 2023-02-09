@@ -57,6 +57,30 @@ export const updateTopScore = {
             .toArray();
           break;
         }
+
+        case "MaxiE3": {
+          await db
+            .collection("maxiE3")
+            .insertOne({ name: req.body.name, score: req.body.score });
+          results = await db
+            .collection("maxiE3")
+            .find({}, { _id: 0 })
+            .sort({ score: -1 })
+            .toArray();
+          break;
+        }
+
+        case "MaxiRE3": {
+          await db
+            .collection("maxiRE3")
+            .insertOne({ name: req.body.name, score: req.body.score });
+          results = await db
+            .collection("maxiRE3")
+            .find({}, { _id: 0 })
+            .sort({ score: -1 })
+            .toArray();
+          break;
+        }
       }
       res.status(200).json(results);
     } catch (e) {
