@@ -29,10 +29,10 @@ const localFlutterDir: string = "C:/Users/J/StudioProjects/flutter_system";
 const localReactDir: string = "C:/Users/J/Desktop/proj";
 
 if (isOnline) {
-  app.use(express.static(path.join(__dirname, "/build")));
+  //app.use(express.static(path.join(__dirname, "/build")));
   app.use(express.static(path.join(__dirname, "/web")));
 } else {
-  app.use(express.static(localReactDir + "/build"));
+  //app.use(express.static(localReactDir + "/build"));
   app.use(express.static(localFlutterDir + "/build/web"));
 }
 
@@ -255,7 +255,7 @@ app.get("/flutter", (req, res) => {
 
 app.get("*", (req, res) => {
   if (isOnline) {
-    res.sendFile(path.join(__dirname + "/build/index.html"));
+    //res.sendFile(path.join(__dirname + "/build/index.html"));
   } else {
     res.sendFile(localReactDir + "/build/index.html");
   }
